@@ -1,6 +1,7 @@
 package com.example.test.entities;
 
 import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,8 @@ public class Commande {
     private int qte;
 
 
+    @OneToMany(mappedBy = 'commande')
     private List<Produit> produits;
-    
+
 
 }

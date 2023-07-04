@@ -3,9 +3,7 @@ package com.example.demo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -23,22 +21,18 @@ public class GeneratorRest {
     final static String  basePackage = "com.example.test";
     static final ObjectMapper objectMapper = new ObjectMapper();
 
-    @GetMapping("/")
-    public String generate() throws IOException {
+    @PostMapping("/")
+    public String generate(@RequestBody JsonNode jsonNode) throws IOException {
         String packageName = "com.example.test";
 
-        String jsonContent = new String(Files.readAllBytes(Paths.get("src/main/resources/entities.json")));
-
-        JsonNode entitiesNode = objectMapper.readTree(jsonContent);
-
-        for (JsonNode entityNode : entitiesNode) {
+        for (JsonNode entityNode : jsonNode) {
             String entityName = entityNode.get("nameEntity").asText();
             List<String> attributes = new ArrayList<>();
             JsonNode attributesNode = entityNode.get("attributes");
             for (JsonNode attributeNode : attributesNode) {
                 String attributeName = attributeNode.get("nameAttribute").asText();
                 String attributeType = attributeNode.get("type").asText();
-                String attributeDeclaration = "private " + attributeType + " " + attributeName + ";\n\n";
+                String attributeDeclaration = attributeType + " " + attributeName + ";\n\n";
                 attributes.add(attributeDeclaration);
             }
 
@@ -48,7 +42,7 @@ public class GeneratorRest {
             generateServiceImplementationClass(packageName + ".service.implementation", entityName);
             generateControllerClass(packageName + ".controller", packageName + ".service.facade", entityName);
         }
-        return jsonContent;
+        return jsonNode.asText();
     }
 
     public static void generateEntityClass(String packageName, String entityName, List<String> attributes) throws IOException {
