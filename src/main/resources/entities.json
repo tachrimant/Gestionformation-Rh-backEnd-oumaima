@@ -1,0 +1,21 @@
+[
+  {
+    "nameEntity": "Commande",
+    "attributes": [
+      { "nameAttribute": "code", "type": "String" },
+      { "nameAttribute": "total", "type": "Long" },
+      { "nameAttribute": "qte", "type": "int" },
+      { "nameAttribute": "produits", "type": "List<Produit>" }
+    ]
+  },
+  {
+    "nameEntity": "Produit",
+    "attributes": [
+      { "nameAttribute": "code", "type": "String" },
+      { "nameAttribute": "description", "type": "String" },
+      { "nameAttribute": "prix", "type": "Double" },
+      { "nameAttribute": "libelle", "type": "String" }
+
+    ]
+  }
+]
