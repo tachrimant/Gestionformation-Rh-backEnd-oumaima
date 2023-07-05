@@ -62,9 +62,6 @@ public class GeneratorRest {
                     attributesGenerateFindController.add(findmethodController);
 
                 }
-                System.out.println(attributesGenerateFindDaoEtFacade);
-                System.out.println(attributesGenerateFindImpl);
-                System.out.println(attributesGenerateFindController);
                 String attributeDeclaration ="private " +  attributeType + " " + attributeName + ";\n\n";
                 attributes.add(attributeDeclaration);
             }
