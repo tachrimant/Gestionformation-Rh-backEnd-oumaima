@@ -2,16 +2,15 @@ package com.example.demo;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/generator")
@@ -19,36 +18,91 @@ public class GeneratorRest {
 
 
     final static String  basePackage = "com.example.test";
-    static final ObjectMapper objectMapper = new ObjectMapper();
+
 
     @PostMapping("/")
-    public String generate(@RequestBody JsonNode jsonNode) throws IOException {
+    public JsonNode generate(@RequestBody JsonNode jsonNode) throws IOException {
         String packageName = "com.example.test";
 
         for (JsonNode entityNode : jsonNode) {
             String entityName = entityNode.get("nameEntity").asText();
             List<String> attributes = new ArrayList<>();
+            List<String> attributesDto = new ArrayList<>();
+            List<String> attributesGenerateFindDaoEtFacade = new ArrayList<>();
+            List<String> attributesGenerateFindImpl = new ArrayList<>();
+            List<String> attributesGenerateFindController = new ArrayList<>();
             JsonNode attributesNode = entityNode.get("attributes");
             for (JsonNode attributeNode : attributesNode) {
                 String attributeName = attributeNode.get("nameAttribute").asText();
-                String attributeType = attributeNode.get("type").asText();
-                String attributeDeclaration = attributeType + " " + attributeName + ";\n\n";
+                String attributeType =  attributeNode.get("type").asText();
+                boolean isRelational = attributeNode.get("isRelational").asBoolean();
+                boolean generateFind = attributeNode.get("generateFind").asBoolean();
+                if (isRelational){
+                    attributeType = attributeNode.get("relation").asText() + " " + attributeType;
+                }
+
+                if (generateFind){
+                    String findmethod = "    public " + entityName  + " find" + entityName +
+                            "By" + attributeName.substring(0,1).toUpperCase() + attributeName.substring(1).toLowerCase() + "(" + attributeType + " " + attributeName + ");\n";
+                    attributesGenerateFindDaoEtFacade.add(findmethod);
+
+                    String findmethodImpl = "    @Override \n" + "    public " + entityName  + " find" + entityName +
+                            "By" + attributeName.substring(0,1).toUpperCase() + attributeName.substring(1).toLowerCase() + "(" + attributeType + " " + attributeName + ")"
+                            + "{\n"+ "      return  " + entityName.toLowerCase() + "Dao." + "find" + entityName + "By" + attributeName.substring(0,1).toUpperCase() + attributeName.substring(1).toLowerCase() +
+                            "("+ attributeName + " );\n}\n";
+
+                    attributesGenerateFindImpl.add(findmethodImpl);
+
+                    String findmethodController = "    @GetMapping(\"/" +attributeName+"/{" + attributeName + "}\")\n"
+                            + "    public " + entityName  + " find" + entityName +
+                            "By" + attributeName + "(@PathVariable " + attributeType + " " + attributeName + ")"
+                            + "{\n"+ "     return  " + entityName.toLowerCase() + "Service." + "find" + entityName + "By" + attributeName.substring(0,1).toUpperCase() + attributeName.substring(1).toLowerCase() +
+                            "( "  + attributeName + " );\n}\n";
+
+                    attributesGenerateFindController.add(findmethodController);
+
+                }
+                System.out.println(attributesGenerateFindDaoEtFacade);
+                System.out.println(attributesGenerateFindImpl);
+                System.out.println(attributesGenerateFindController);
+                String attributeDeclaration ="private " +  attributeType + " " + attributeName + ";\n\n";
                 attributes.add(attributeDeclaration);
+            }
+            for (JsonNode attributeNode : attributesNode) {
+                String attributeName = attributeNode.get("nameAttribute").asText();
+                boolean isRelational = attributeNode.get("isRelational").asBoolean();
+                String attributeType = attributeNode.get("type").asText();
+
+                if (isRelational){
+                    if (attributeType.contains("List")){
+                        attributeType = attributeType.substring(0,attributeType.length()-1) + "Dto" + ">";
+                        attributeName = attributeName + "ListDto";
+                    }
+                    else{
+                        attributeType = attributeType + "Dto";
+                        attributeName = attributeName + "Dto";
+                    }
+                }
+
+                String attributeDeclaration = "private " + attributeType + " " + attributeName + ";\n\n";
+                attributesDto.add(attributeDeclaration);
             }
 
             generateEntityClass(packageName, entityName, attributes);
-            generateDaoInterface(packageName + ".dao", entityName);
-            generateServiceFacadeInterface(packageName + ".service.facade", entityName);
-            generateServiceImplementationClass(packageName + ".service.implementation", entityName);
-            generateControllerClass(packageName + ".controller", packageName + ".service.facade", entityName);
+            generateDtoClass(packageName, entityName, attributesDto);
+            generateDaoInterface(packageName + ".dao", entityName, attributesGenerateFindDaoEtFacade);
+            generateServiceFacadeInterface(packageName + ".service.facade", entityName,attributesGenerateFindDaoEtFacade);
+            generateServiceImplementationClass(packageName + ".service.implementation", entityName,attributesGenerateFindImpl);
+            generateControllerClass(packageName + ".controller", packageName + ".service.facade", entityName,attributesGenerateFindController);
         }
-        return jsonNode.asText();
+        return jsonNode;
     }
 
     public static void generateEntityClass(String packageName, String entityName, List<String> attributes) throws IOException {
         String attributeDeclarations = String.join("\n    ", attributes);
         String entityClassContent = "package " + packageName + ".entities;\n\n" +
                 "import javax.persistence.*;\n" +
+                "import java.util.List;\n\n" +
                 "import lombok.AllArgsConstructor;\n" +
                 "import lombok.Data;\n" +
                 "import lombok.NoArgsConstructor;\n\n" +
@@ -65,23 +119,46 @@ public class GeneratorRest {
         writeFile(packageName + ".entities", entityName , entityClassContent);
     }
 
-    public static void generateDaoInterface(String packageName, String entityName) throws IOException {
+    public static void generateDtoClass(String packageName, String entityName, List<String> attributes) throws IOException {
+        String attributeDeclarations = String.join("\n    ", attributes);
+        String dtoClassContent = "package " + packageName + ".dto;\n\n" +
+                "import java.util.List;\n\n" +
+                "import lombok.AllArgsConstructor;\n" +
+                "import lombok.Data;\n" +
+                "import lombok.NoArgsConstructor;\n\n" +
+                "@Data\n" +
+                "@AllArgsConstructor\n" +
+                "@NoArgsConstructor\n" +
+                "public class " + entityName + "Dto {\n" +
+
+                "    private Long id;\n" +
+                "    " + attributeDeclarations + "\n" +
+                "}";
+        writeFile(packageName + ".dto", entityName + "Dto" , dtoClassContent);
+    }
+
+
+    public static void generateDaoInterface(String packageName, String entityName,  List<String> methods) throws IOException {
         String daoInterfaceName = entityName + "Dao";
         String daoInterfaceContent = "package " + packageName + ";\n\n" +
                 "import " + "org.springframework.data.jpa.repository.JpaRepository;\n" +
+                "import com.example.test.dto." + entityName + "Dto;\n\n" +
                 "import org.springframework.stereotype.Repository;\n"+
                 "import java.util.List;\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
                 "@Repository\n"+
                 "public interface " + daoInterfaceName + " extends JpaRepository<" + entityName + ", Long> {\n" +
+                "    " +   String.join("\n    ", methods)+ "\n" +
+
                 "}";
         writeFile(packageName, daoInterfaceName, daoInterfaceContent);
     }
 
-    public static void generateServiceFacadeInterface(String packageName, String entityName) throws IOException {
+    public static void generateServiceFacadeInterface(String packageName, String entityName,  List<String> methods) throws IOException {
         String facadeInterfaceName = entityName + "Service";
         String facadeInterfaceContent = "package " + packageName + ";\n\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
+                "import com.example.test.dto." + entityName + "Dto;\n\n" +
                 "import java.util.List;\n\n" +
 
                 "public interface " + facadeInterfaceName + " {\n" +
@@ -90,15 +167,17 @@ public class GeneratorRest {
                 "    void deleteById(Long id);\n" +
                 "    " + entityName + " findById(Long id);\n" +
                 "    List<" + entityName + "> findAll();\n" +
+                String.join("\n    ", methods) + "\n" +
                 "}";
         writeFile(packageName, facadeInterfaceName, facadeInterfaceContent);
     }
 
-    public static void generateServiceImplementationClass(String packageName, String entityName) throws IOException {
+    public static void generateServiceImplementationClass(String packageName, String entityName,  List<String> methods) throws IOException {
         String facadeInterfaceName = entityName + "Service";
         String implementationClassName = entityName + "ServiceImplementation";
         String implementationClassContent = "package " + packageName + ";\n\n" +
                 "import java.util.List;\n\n" +
+                "import com.example.test.dto." + entityName + "Dto;\n\n" +
                 "import org.springframework.beans.factory.annotation.Autowired;\n" +
                 "import org.springframework.stereotype.Service;\n" +
                 "import com.example.test.service.facade."+ entityName +"Service;\n\n"+
@@ -128,15 +207,18 @@ public class GeneratorRest {
                 "    @Override\n" +
                 "    public List<" + entityName + "> findAll() {\n" +
                 "        return " + entityName.toLowerCase() + "Dao.findAll();\n" +
-                "    }\n" +
+
+                "    }\n\n" +
+                String.join("\n    ", methods) + "\n" +
                 "}";
         writeFile(packageName, implementationClassName, implementationClassContent);
     }
 
-    public static void generateControllerClass(String packageName, String facadePackageName, String entityName) throws IOException {
+    public static void generateControllerClass(String packageName, String facadePackageName, String entityName,  List<String> methods) throws IOException {
         String controllerClassName = entityName + "Controller";
         String controllerClassContent = "package " + packageName + ";\n\n" +
                 "import org.springframework.beans.factory.annotation.Autowired;\n" +
+                "import com.example.test.dto." + entityName + "Dto;\n\n" +
                 "import org.springframework.web.bind.annotation.*;\n" +
                 "import java.util.List;\n" +
                 "import " + facadePackageName + "." + entityName + "Service;\n" +
@@ -165,7 +247,9 @@ public class GeneratorRest {
                 "    @GetMapping(\"/\")\n" +
                 "    public List<" + entityName + "> findAll() {\n" +
                 "        return " + entityName.toLowerCase() + "Service.findAll();\n" +
+
                 "    }\n" +
+                String.join("\n    ", methods) +
                 "}";
         writeFile(packageName, controllerClassName, controllerClassContent);
     }
