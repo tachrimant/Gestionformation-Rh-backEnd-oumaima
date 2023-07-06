@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/generator")
@@ -95,7 +94,7 @@ public class GeneratorRest {
         return jsonNode;
     }
 
-    public static void generateEntityClass(String packageName, String entityName, List<String> attributes) throws IOException {
+    public  void generateEntityClass(String packageName, String entityName, List<String> attributes) throws IOException {
         String attributeDeclarations = String.join("\n    ", attributes);
         String entityClassContent = "package " + packageName + ".entities;\n\n" +
                 "import javax.persistence.*;\n" +
@@ -116,7 +115,7 @@ public class GeneratorRest {
         writeFile(packageName + ".entities", entityName , entityClassContent);
     }
 
-    public static void generateDtoClass(String packageName, String entityName, List<String> attributes) throws IOException {
+    public  void generateDtoClass(String packageName, String entityName, List<String> attributes) throws IOException {
         String attributeDeclarations = String.join("\n    ", attributes);
         String dtoClassContent = "package " + packageName + ".dto;\n\n" +
                 "import java.util.List;\n\n" +
@@ -135,7 +134,7 @@ public class GeneratorRest {
     }
 
 
-    public static void generateDaoInterface(String packageName, String entityName,  List<String> methods) throws IOException {
+    public  void generateDaoInterface(String packageName, String entityName,  List<String> methods) throws IOException {
         String daoInterfaceName = entityName + "Dao";
         String daoInterfaceContent = "package " + packageName + ";\n\n" +
                 "import " + "org.springframework.data.jpa.repository.JpaRepository;\n" +
@@ -151,7 +150,7 @@ public class GeneratorRest {
         writeFile(packageName, daoInterfaceName, daoInterfaceContent);
     }
 
-    public static void generateServiceFacadeInterface(String packageName, String entityName,  List<String> methods) throws IOException {
+    public  void generateServiceFacadeInterface(String packageName, String entityName,  List<String> methods) throws IOException {
         String facadeInterfaceName = entityName + "Service";
         String facadeInterfaceContent = "package " + packageName + ";\n\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
@@ -169,7 +168,7 @@ public class GeneratorRest {
         writeFile(packageName, facadeInterfaceName, facadeInterfaceContent);
     }
 
-    public static void generateServiceImplementationClass(String packageName, String entityName,  List<String> methods) throws IOException {
+    public  void generateServiceImplementationClass(String packageName, String entityName,  List<String> methods) throws IOException {
         String facadeInterfaceName = entityName + "Service";
         String implementationClassName = entityName + "ServiceImplementation";
         String implementationClassContent = "package " + packageName + ";\n\n" +
@@ -211,7 +210,7 @@ public class GeneratorRest {
         writeFile(packageName, implementationClassName, implementationClassContent);
     }
 
-    public static void generateControllerClass(String packageName, String facadePackageName, String entityName,  List<String> methods) throws IOException {
+    public  void generateControllerClass(String packageName, String facadePackageName, String entityName,  List<String> methods) throws IOException {
         String controllerClassName = entityName + "Controller";
         String controllerClassContent = "package " + packageName + ";\n\n" +
                 "import org.springframework.beans.factory.annotation.Autowired;\n" +
@@ -251,7 +250,13 @@ public class GeneratorRest {
         writeFile(packageName, controllerClassName, controllerClassContent);
     }
 
-    public static void writeFile(String packageName, String fileName, String content) throws IOException {
+    public void generateCretiriaClass(String packageName, String criteriaPackageName, String entityName, List<String> attributes){
+
+    }
+
+
+
+    public  void writeFile(String packageName, String fileName, String content) throws IOException {
         File packageDir = new File("src/" + packageName.replace(".", "/"));
         packageDir.mkdirs();
         File file = new File(packageDir, fileName + ".java");
