@@ -24,8 +24,8 @@ public interface UserService extends UserDetailsService {
 
     User findByUsernameWithRoles(String username);
 
-    int  deleteByUsername(String username);
+    int deleteByUsername(String username);
 
-    public UserDetails loadUserByUsername(String username)  ;
+    UserDetails loadUserByUsername(String username);
 
 }

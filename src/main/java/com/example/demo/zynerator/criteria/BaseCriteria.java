@@ -101,7 +101,7 @@ public class BaseCriteria implements Serializable {
     }
 
     public Integer getMaxResults() {
-        if(this.maxResults == null) this.maxResults = 10;
+        if (this.maxResults == null) this.maxResults = 10;
         return this.maxResults;
     }
 
@@ -110,7 +110,7 @@ public class BaseCriteria implements Serializable {
     }
 
     public Integer getPage() {
-        if(this.page == null) this.page = 0;
+        if (this.page == null) this.page = 0;
         return this.page;
     }
 

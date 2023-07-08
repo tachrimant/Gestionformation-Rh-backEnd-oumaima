@@ -23,13 +23,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Autowired
+    @Lazy
+    PasswordEncoder bCryptPasswordEncoder;
+    @Autowired
     private UserDao userDao;
-
     @Autowired
     private RoleService roleService;
-
-    @Autowired @Lazy
-    PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public List<User> findAll() {
@@ -39,14 +38,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         if (username == null)
-        return null;
+            return null;
         return userDao.findByUsername(username);
     }
 
     @Override
     public User findByUsernameWithRoles(String username) {
         if (username == null)
-        return null;
+            return null;
         return userDao.findByUsername(username);
     }
 
@@ -59,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
         if (id == null)
-        return null;
+            return null;
         return userDao.getOne(id);
     }
 
@@ -70,36 +69,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-    User foundedUserByUsername = findByUsername(user.getUsername());
-    User foundedUserByEmail = userDao.findByEmail(user.getEmail());
-    if (foundedUserByUsername != null || foundedUserByEmail != null) return null;
-    else {
+        User foundedUserByUsername = findByUsername(user.getUsername());
+        User foundedUserByEmail = userDao.findByEmail(user.getEmail());
+        if (foundedUserByUsername != null || foundedUserByEmail != null) return null;
+        else {
     /*if (user.getPassword() == null || user.getPassword().isEmpty()) {
     user.setPassword(bCryptPasswordEncoder.encode(user.getUsername()));
     }
     else {
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     }*/
-    user.setPassword(bCryptPasswordEncoder.encode("123"));
-    user.setAccountNonExpired(true);
-    user.setAccountNonLocked(true);
-    user.setCredentialsNonExpired(true);
-    user.setEnabled(true);
-    user.setPasswordChanged(false);
-    user.setCreatedAt(new Date());
+            user.setPassword(bCryptPasswordEncoder.encode("123"));
+            user.setAccountNonExpired(true);
+            user.setAccountNonLocked(true);
+            user.setCredentialsNonExpired(true);
+            user.setEnabled(true);
+            user.setPasswordChanged(false);
+            user.setCreatedAt(new Date());
 
-    if (user.getRoles() != null) {
-    Collection<Role> roles = new ArrayList<Role>();
-            for (Role role : user.getRoles()) {
-            roles.add(roleService.save(role));
-            }
-            user.setRoles(roles);
+            if (user.getRoles() != null) {
+                Collection<Role> roles = new ArrayList<Role>();
+                for (Role role : user.getRoles()) {
+                    roles.add(roleService.save(role));
+                }
+                user.setRoles(roles);
             }
             User mySaved = userDao.save(user);
             return mySaved;
-            }
-            }
-
+        }
+    }
 
 
     @Override
@@ -118,7 +116,7 @@ public class UserServiceImpl implements UserService {
             foundedUser.setAuthorities(new ArrayList<>());
             Collection<Role> roles = new ArrayList<Role>();
             for (Role role : user.getRoles()) {
-            	roles.add(roleService.save(role));
+                roles.add(roleService.save(role));
             }
             foundedUser.setRoles(roles);
             return userDao.save(foundedUser);

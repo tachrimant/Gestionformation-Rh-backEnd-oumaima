@@ -2,9 +2,9 @@ package com.example.demo.zynerator.criteria;
 
 public class BaseCriteriaEnhanced extends BaseCriteria {
 
-     /**
-    * Fields.
-    */
+    /**
+     * Fields.
+     */
 
     protected boolean actif;
     protected boolean actifLike;
@@ -13,10 +13,9 @@ public class BaseCriteriaEnhanced extends BaseCriteria {
     protected String ordre;
 
 
-
     /**
-    * Methods.
-    */
+     * Methods.
+     */
 
     public boolean isActif() {
         return actif;

@@ -132,32 +132,33 @@ public class DateUtil {
         return "";
     }
 
-/*
+    /*
+        public static String dateTimeToString(final LocalDateTime date) {
+            try {
+                if (date != null) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_WITH_HOUR);
+                    return date.format(formatter);
+                }
+            } catch (Exception e) {
+                return null;
+            }
+            return null;
+        }
+    */
     public static String dateTimeToString(final LocalDateTime date) {
         try {
             if (date != null) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_WITH_HOUR);
-                return date.format(formatter);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_WITH_HOUR, Locale.ENGLISH);
+                OffsetDateTime off = OffsetDateTime.of(date, ZoneOffset.UTC);
+                ZonedDateTime zoned = off.atZoneSameInstant(ZoneId.of("UTC+1"));
+                return zoned.toLocalDateTime().format(formatter);
             }
         } catch (Exception e) {
             return null;
         }
         return null;
     }
-*/
-    public static String dateTimeToString(final LocalDateTime date) {
-        try {
-            if (date != null) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_WITH_HOUR,Locale.ENGLISH);
-                OffsetDateTime off = OffsetDateTime.of(date, ZoneOffset.UTC);
-                ZonedDateTime zoned = off.atZoneSameInstant(ZoneId.of("UTC+1"));
-                return zoned.toLocalDateTime().format(formatter);
-            }
-        } catch (Exception e) {
-        return null;
-        }
-    return null;
-    }
+
     public static String dateTimeToString(final LocalDate date) {
         try {
             if (date != null) {

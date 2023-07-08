@@ -18,7 +18,7 @@ public class AuditBusinessObjectEnhanced extends AuditBusinessObject {
 
     protected Boolean actif = false;
     protected String hl7;
-    protected Long ordre ;
+    protected Long ordre;
 
     public Boolean getActif() {
         return actif;

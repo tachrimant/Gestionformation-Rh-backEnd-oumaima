@@ -13,7 +13,7 @@ public interface IService<T extends BusinessObject, Criteria extends BaseCriteri
 
     T update(T t);
 
-    List<T> update(List<T> ts,boolean createIfNotExist);
+    List<T> update(List<T> ts, boolean createIfNotExist);
 
     T findById(Long id);
 
@@ -55,7 +55,6 @@ public interface IService<T extends BusinessObject, Criteria extends BaseCriteri
     int getHistoryDataSize(HistoryCriteria historyCriteria);
 
     List<T> importerData(List<T> items);
-
 
 
 }

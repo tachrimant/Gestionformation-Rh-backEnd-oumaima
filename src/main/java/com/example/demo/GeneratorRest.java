@@ -16,12 +16,12 @@ import java.util.List;
 public class GeneratorRest {
 
 
-    final static String  basePackage = "com.example.test";
+    final static String  basePackage = "com.example.demo";
 
 
     @PostMapping("/")
     public JsonNode generate(@RequestBody JsonNode jsonNode) throws IOException {
-        String packageName = "com.example.test";
+        String packageName = "com.example.demo";
 
         for (JsonNode entityNode : jsonNode) {
             String entityName = entityNode.get("nameEntity").asText();
@@ -36,9 +36,6 @@ public class GeneratorRest {
                 String attributeType =  attributeNode.get("type").asText();
                 boolean isRelational = attributeNode.get("isRelational").asBoolean();
                 boolean generateFind = attributeNode.get("generateFind").asBoolean();
-                if (isRelational){
-                    attributeType = attributeNode.get("relation").asText() + " " + attributeType;
-                }
 
                 if (generateFind){
                     String findmethod = "    public " + entityName  + " find" + entityName +
@@ -61,7 +58,12 @@ public class GeneratorRest {
                     attributesGenerateFindController.add(findmethodController);
 
                 }
-                String attributeDeclaration ="private " +  attributeType + " " + attributeName + ";\n\n";
+                if (isRelational){
+                    attributeType = attributeNode.get("relation").asText() + " \n private " + " " + attributeType;
+                }else {
+                    attributeType = "private " + attributeType;
+                }
+                String attributeDeclaration =  attributeType + " " + attributeName + ";\n\n";
                 attributes.add(attributeDeclaration);
             }
             for (JsonNode attributeNode : attributesNode) {
@@ -99,6 +101,9 @@ public class GeneratorRest {
         String entityClassContent = "package " + packageName + ".entities;\n\n" +
                 "import javax.persistence.*;\n" +
                 "import java.util.List;\n\n" +
+                "import java.time.LocalDate;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.util.Date;\n" +
                 "import lombok.AllArgsConstructor;\n" +
                 "import lombok.Data;\n" +
                 "import lombok.NoArgsConstructor;\n\n" +
@@ -119,6 +124,9 @@ public class GeneratorRest {
         String attributeDeclarations = String.join("\n    ", attributes);
         String dtoClassContent = "package " + packageName + ".dto;\n\n" +
                 "import java.util.List;\n\n" +
+                "import java.time.LocalDate;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.util.Date;\n" +
                 "import lombok.AllArgsConstructor;\n" +
                 "import lombok.Data;\n" +
                 "import lombok.NoArgsConstructor;\n\n" +
@@ -138,7 +146,7 @@ public class GeneratorRest {
         String daoInterfaceName = entityName + "Dao";
         String daoInterfaceContent = "package " + packageName + ";\n\n" +
                 "import " + "org.springframework.data.jpa.repository.JpaRepository;\n" +
-                "import com.example.test.dto." + entityName + "Dto;\n\n" +
+                "import com.example.demo.dto." + entityName + "Dto;\n\n" +
                 "import org.springframework.stereotype.Repository;\n"+
                 "import java.util.List;\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
@@ -154,7 +162,7 @@ public class GeneratorRest {
         String facadeInterfaceName = entityName + "Service";
         String facadeInterfaceContent = "package " + packageName + ";\n\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
-                "import com.example.test.dto." + entityName + "Dto;\n\n" +
+                "import com.example.demo.dto." + entityName + "Dto;\n\n" +
                 "import java.util.List;\n\n" +
 
                 "public interface " + facadeInterfaceName + " {\n" +
@@ -173,10 +181,10 @@ public class GeneratorRest {
         String implementationClassName = entityName + "ServiceImplementation";
         String implementationClassContent = "package " + packageName + ";\n\n" +
                 "import java.util.List;\n\n" +
-                "import com.example.test.dto." + entityName + "Dto;\n\n" +
+                "import com.example.demo.dto." + entityName + "Dto;\n\n" +
                 "import org.springframework.beans.factory.annotation.Autowired;\n" +
                 "import org.springframework.stereotype.Service;\n" +
-                "import com.example.test.service.facade."+ entityName +"Service;\n\n"+
+                "import com.example.demo.service.facade."+ entityName +"Service;\n\n"+
                 "import " + GeneratorRest.basePackage + ".dao." + entityName + "Dao;\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
                 "@Service\n" +
@@ -214,14 +222,14 @@ public class GeneratorRest {
         String controllerClassName = entityName + "Controller";
         String controllerClassContent = "package " + packageName + ";\n\n" +
                 "import org.springframework.beans.factory.annotation.Autowired;\n" +
-                "import com.example.test.dto." + entityName + "Dto;\n\n" +
+                "import com.example.demo.dto." + entityName + "Dto;\n\n" +
                 "import org.springframework.web.bind.annotation.*;\n" +
                 "import java.util.List;\n" +
                 "import " + facadePackageName + "." + entityName + "Service;\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
                 "@RestController\n" +
                 "@RequestMapping(\"/" + entityName.toLowerCase() + "\")\n" +
-                "public class " + controllerClassName + " {\n" +
+                "public class " + controllerClassName + " {\n\n" +
                 "    @Autowired\n" +
                 "    private " + entityName + "Service " + entityName.toLowerCase() + "Service;\n\n" +
                 "    @PostMapping(\"/\")\n" +
@@ -257,7 +265,7 @@ public class GeneratorRest {
 
 
     public  void writeFile(String packageName, String fileName, String content) throws IOException {
-        File packageDir = new File("src/" + packageName.replace(".", "/"));
+        File packageDir = new File("src/main/java/" + packageName.replace(".", "/"));
         packageDir.mkdirs();
         File file = new File(packageDir, fileName + ".java");
         FileWriter writer = new FileWriter(file);

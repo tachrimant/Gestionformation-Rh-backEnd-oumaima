@@ -2,11 +2,10 @@ package com.example.demo.zynerator.audit;
 
 
 import com.example.demo.zynerator.security.bean.User;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 

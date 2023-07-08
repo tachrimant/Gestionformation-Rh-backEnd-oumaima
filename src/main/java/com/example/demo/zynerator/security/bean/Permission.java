@@ -8,18 +8,19 @@ import java.util.List;
 
 @Entity
 public class Permission {
+    @ManyToMany(mappedBy = "permissions")
+    @JsonIgnore
+    List<Role> roles = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "permissions")
-    @JsonIgnore
-    List<Role> roles = new ArrayList<>();
+    public Permission() {
+        super();
+    }
 
-    public Permission(){ super(); }
-
-    public Permission(String name){
+    public Permission(String name) {
         super();
         this.name = name;
     }

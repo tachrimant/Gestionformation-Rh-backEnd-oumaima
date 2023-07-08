@@ -7,9 +7,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractRequired<DTO, DTO_TAB> {
-    private Class<DTO> dtoClass;
-    private Class<DTO_TAB> dtoTableClass;
+    private final Class<DTO> dtoClass;
+    private final Class<DTO_TAB> dtoTableClass;
 
+
+    public AbstractRequired(Class<DTO> dtoClass, Class<DTO_TAB> dtoTableClass) {
+        this.dtoClass = dtoClass;
+        this.dtoTableClass = dtoTableClass;
+    }
 
     public List<DTO> findAll() {
         String url = getMsUrl() + getLocalUrl();
@@ -29,11 +34,6 @@ public abstract class AbstractRequired<DTO, DTO_TAB> {
 
     public <T> void getMultiple(String url, Class<T[]> clazzTable) {
         //restTemplate.getForEntity(url, clazzTable).getBody();
-    }
-
-    public AbstractRequired(Class<DTO> dtoClass, Class<DTO_TAB> dtoTableClass) {
-        this.dtoClass = dtoClass;
-        this.dtoTableClass = dtoTableClass;
     }
 
     public abstract String getMsUrl();

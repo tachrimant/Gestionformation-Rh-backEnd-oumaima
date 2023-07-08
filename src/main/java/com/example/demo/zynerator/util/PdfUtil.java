@@ -21,10 +21,10 @@ import java.io.StringWriter;
 import java.util.Map;
 
 
-public class PdfUtil  {
+public class PdfUtil {
 
 
-    public static HttpEntity<byte[]> createPdf(String fileName, String templatePath, Map<String,String>  data) throws IOException {
+    public static HttpEntity<byte[]> createPdf(String fileName, String templatePath, Map<String, String> data) throws IOException {
 
 
         /* first, get and initialize an engine */
@@ -98,7 +98,7 @@ public class PdfUtil  {
 
     }
 
-    public static <T> HttpEntity<byte[]> createPdf(String generatedfileName, String templatePath, String key, Map<String,String> data) throws IOException {
+    public static <T> HttpEntity<byte[]> createPdf(String generatedfileName, String templatePath, String key, Map<String, String> data) throws IOException {
 
 
         /* first, get and initialize an engine */

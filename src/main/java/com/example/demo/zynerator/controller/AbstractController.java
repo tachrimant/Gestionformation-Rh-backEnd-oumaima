@@ -6,16 +6,13 @@ import com.example.demo.zynerator.converter.AbstractConverter;
 import com.example.demo.zynerator.criteria.BaseCriteria;
 import com.example.demo.zynerator.dto.AuditEntityDto;
 import com.example.demo.zynerator.dto.BaseDto;
+import com.example.demo.zynerator.dto.FileTempDto;
+import com.example.demo.zynerator.exception.BusinessRuleException;
 import com.example.demo.zynerator.exception.GlobalException;
 import com.example.demo.zynerator.export.ExportModel;
 import com.example.demo.zynerator.history.HistBusinessObject;
 import com.example.demo.zynerator.service.IService;
 import com.example.demo.zynerator.util.*;
-import com.example.demo.zynerator.dto.FileTempDto;
-import com.example.demo.zynerator.exception.BusinessRuleException;
-
-
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -30,13 +27,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileInputStream;
-
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 public class AbstractController<T extends AuditBusinessObject, DTO extends BaseDto, H extends HistBusinessObject, Criteria extends BaseCriteria, HistoryCriteria extends BaseCriteria, SERV extends IService<T, Criteria, HistoryCriteria>, CONV extends AbstractConverter<T, DTO, H>> {
@@ -46,57 +46,20 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
     private MessageSource messageSource;
 
 
-@Value("${uploads.location.directory}")
+    @Value("${uploads.location.directory}")
     private String UPLOADED_FOLDER;
- @Value("${uploads.location.temp}")
+    @Value("${uploads.location.temp}")
     private String UPLOADED_TEMP_FOLDER;
 
 
-    public String generateRandomFileName(String fileName) throws IOException {
-        String extention = com.google.common.io.Files.getFileExtension(fileName);
-        String prefix = "tmp";
-        if (StringUtil.isNotEmpty(extention)) {
-        File tmpQuittanceFile = File.createTempFile(prefix, "."+extention, new File(UPLOADED_TEMP_FOLDER));
-            return tmpQuittanceFile.getName();
-        }
-        return String.valueOf(UniqueID.get());
+    public AbstractController(SERV service, CONV converter) {
+        this.service = service;
+        this.converter = converter;
     }
 
     public static String removeExtension(String fileName) {
         int dotIndex = fileName.lastIndexOf('.');
         return (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);
-    }
-
-
-    public ResponseEntity<List<FileTempDto>> uploadMultipleFileAndGetChecksum(@RequestBody MultipartFile[] files) throws Exception {
-        List<FileTempDto> result= new ArrayList<>();
-        if (files != null) {
-            for (MultipartFile file : files) {
-                result.add(uploadFileAndGetChecksum(file).getBody());
-            }
-        }
-        return new ResponseEntity<List<FileTempDto>>(result, HttpStatus.OK);
-    }
-
-    public ResponseEntity<FileTempDto> uploadFileAndGetChecksum(@RequestBody MultipartFile file) throws Exception {
-        FileTempDto object = new FileTempDto();
-        String checksum = "";
-        if (file != null) {
-            File convFile = new File(UPLOADED_FOLDER + generateRandomFileName(file.getOriginalFilename()));
-            if (!convFile.getParentFile().exists())
-            convFile.getParentFile().mkdirs();
-            convFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(file.getBytes());
-            fos.close();
-            checksum = MD5Checksum.getMD5Checksum(convFile.getPath());
-            object.setId(removeExtension(convFile.getName()));
-            object.setChecksumValue(checksum);
-            object.setOriginalFileName(file.getOriginalFilename());
-            object.setFileName(convFile.getName());
-            return new ResponseEntity<FileTempDto>(object, HttpStatus.OK);
-        }
-        return new ResponseEntity<FileTempDto>(HttpStatus.NOT_FOUND);
     }
 
     // Download file
@@ -123,6 +86,47 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
         return exportModel != null && exportModel.getList() != null && !exportModel.getList().isEmpty();
     }
 
+    public String generateRandomFileName(String fileName) throws IOException {
+        String extention = com.google.common.io.Files.getFileExtension(fileName);
+        String prefix = "tmp";
+        if (StringUtil.isNotEmpty(extention)) {
+            File tmpQuittanceFile = File.createTempFile(prefix, "." + extention, new File(UPLOADED_TEMP_FOLDER));
+            return tmpQuittanceFile.getName();
+        }
+        return String.valueOf(UniqueID.get());
+    }
+
+    public ResponseEntity<List<FileTempDto>> uploadMultipleFileAndGetChecksum(@RequestBody MultipartFile[] files) throws Exception {
+        List<FileTempDto> result = new ArrayList<>();
+        if (files != null) {
+            for (MultipartFile file : files) {
+                result.add(uploadFileAndGetChecksum(file).getBody());
+            }
+        }
+        return new ResponseEntity<List<FileTempDto>>(result, HttpStatus.OK);
+    }
+
+    public ResponseEntity<FileTempDto> uploadFileAndGetChecksum(@RequestBody MultipartFile file) throws Exception {
+        FileTempDto object = new FileTempDto();
+        String checksum = "";
+        if (file != null) {
+            File convFile = new File(UPLOADED_FOLDER + generateRandomFileName(file.getOriginalFilename()));
+            if (!convFile.getParentFile().exists())
+                convFile.getParentFile().mkdirs();
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(file.getBytes());
+            fos.close();
+            checksum = MD5Checksum.getMD5Checksum(convFile.getPath());
+            object.setId(removeExtension(convFile.getName()));
+            object.setChecksumValue(checksum);
+            object.setOriginalFileName(file.getOriginalFilename());
+            object.setFileName(convFile.getName());
+            return new ResponseEntity<FileTempDto>(object, HttpStatus.OK);
+        }
+        return new ResponseEntity<FileTempDto>(HttpStatus.NOT_FOUND);
+    }
+
     public ResponseEntity<DTO> findById(Long id, String[] includes, String[] excludes) throws Exception {
         T t = service.findById(id);
         converter.init(true);
@@ -131,39 +135,37 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
     }
 
     public ResponseEntity<DTO> findWithAssociatedLists(Long id) {
-        T loaded =  service.findWithAssociatedLists(id);
+        T loaded = service.findWithAssociatedLists(id);
         converter.init(true);
         DTO dto = converter.toDto(loaded);
         return new ResponseEntity<>(dto, HttpStatus.OK);
-     }
+    }
 
-    private  ResponseEntity<DTO> getDtoResponseEntity(DTO dto, String[] includes, String[] excludes) throws Exception {
+    private ResponseEntity<DTO> getDtoResponseEntity(DTO dto, String[] includes, String[] excludes) throws Exception {
         if (StringUtil.isNoEmpty(includes) || StringUtil.isNoEmpty(excludes))
             dto = converter.copyIncludeExclude(dto, includes, excludes);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-
     public ResponseEntity<DTO> save(DTO dto) throws Exception {
-        if(dto!=null){
+        if (dto != null) {
             converter.init(true);
             T myT = converter.toItem(dto);
             T t = service.create(myT);
             DTO myDto = converter.toDto(t);
             return new ResponseEntity<>(myDto, HttpStatus.CREATED);
-        }else {
+        } else {
             return new ResponseEntity<>(dto, HttpStatus.NO_CONTENT);
         }
     }
 
-
     public ResponseEntity<DTO> update(DTO dto) throws Exception {
-        ResponseEntity<DTO> res ;
+        ResponseEntity<DTO> res;
         if (dto.getId() == null || service.findById(dto.getId()) == null)
             res = new ResponseEntity<>(HttpStatus.CONFLICT);
         else {
             T t = service.findById(dto.getId());
-            converter.copy(dto,t);
+            converter.copy(dto, t);
             T updated = service.update(t);
             DTO myDto = converter.toDto(updated);
             res = new ResponseEntity<>(myDto, HttpStatus.OK);
@@ -171,9 +173,8 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
         return res;
     }
 
-
     public ResponseEntity<List<DTO>> delete(List<DTO> dtos) throws Exception {
-        ResponseEntity<List<DTO>> res ;
+        ResponseEntity<List<DTO>> res;
         HttpStatus status = HttpStatus.CONFLICT;
         if (dtos != null && !dtos.isEmpty()) {
             converter.init(false);
@@ -198,8 +199,7 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
         return res;
     }
 
-
-    protected ResponseEntity<Long> deleteById(Long id)  throws Exception {
+    protected ResponseEntity<Long> deleteById(Long id) throws Exception {
         ResponseEntity<Long> res;
         HttpStatus status = HttpStatus.CONFLICT;
         if (id != null) {
@@ -210,8 +210,7 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
         return res;
     }
 
-
-    protected ResponseEntity<List<Long>> deleteByIdIn(List<Long> ids)  throws Exception {
+    protected ResponseEntity<List<Long>> deleteByIdIn(List<Long> ids) throws Exception {
         ResponseEntity<List<Long>> res;
         HttpStatus status = HttpStatus.CONFLICT;
         if (ids != null) {
@@ -256,7 +255,6 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
         }
         return new ResponseEntity<>(paginatedList, HttpStatus.OK);
     }
-
 
     public ResponseEntity<InputStreamResource> export(Criteria criteria) throws Exception {
         ResponseEntity<InputStreamResource> res = null;
@@ -340,15 +338,13 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
         return new ResponseEntity<InputStreamResource>(HttpStatus.NOT_FOUND);
     }
 
-
     protected ResponseEntity<List<DTO>> importData(List<DTO> dtos) {
         List<T> items = converter.toItem(dtos);
         items = service.importerData(items);
-        List<DTO> result= converter.toDto(items);
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        List<DTO> result = converter.toDto(items);
+        return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
-
 
     public String uploadFile(String checksumOld, String filePath, String file) throws Exception {
         return uploadFile(checksumOld, file, filePath, false);
@@ -366,10 +362,10 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
             }
             result = FileUtils.saveFile(UPLOADED_TEMP_FOLDER, UPLOADED_FOLDER, file, filePath, "");
             if (FileUtils.isFileExist(UPLOADED_FOLDER, result)) {
-            // Vérifier checksum fichier sur le dossier data
-            checksum = MD5Checksum.getMD5Checksum(UPLOADED_FOLDER + result);
+                // Vérifier checksum fichier sur le dossier data
+                checksum = MD5Checksum.getMD5Checksum(UPLOADED_FOLDER + result);
                 if (!checksum.equals(checksumOld)) {
-                throw new BusinessRuleException("errors.file.checksum", new String[]{""});
+                    throw new BusinessRuleException("errors.file.checksum", new String[]{""});
                 }
             } else {
                 throw new BusinessRuleException("errors.file.data.creation", new String[]{""});
@@ -377,16 +373,11 @@ public class AbstractController<T extends AuditBusinessObject, DTO extends BaseD
         }
         return result;
     }
-    public AbstractController(SERV service, CONV converter) {
-        this.service = service;
-        this.converter = converter;
-    }
+
+    protected HttpEntity<byte[]> createPdf(String fileName, String myPath, String key, Map<String, String> data) throws IOException {
 
 
-    protected HttpEntity<byte[]> createPdf(String fileName, String myPath, String key, Map<String,String> data) throws IOException {
-
-
-        return PdfUtil.createPdf(fileName,myPath,key,data);
+        return PdfUtil.createPdf(fileName, myPath, key, data);
 
     }
 }

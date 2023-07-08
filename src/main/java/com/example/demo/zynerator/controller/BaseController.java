@@ -28,7 +28,7 @@ public abstract class BaseController {
     private MessageSource messageSource;
 
 
-@Value("${uploads.location.directory}")
+    @Value("${uploads.location.directory}")
     private String UPLOADED_FOLDER;
 
     protected static ClientHttpRequestFactory clientHttpRequestFactory() {

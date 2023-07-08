@@ -3,7 +3,6 @@ package com.example.demo.zynerator.specification;
 
 import com.example.demo.zynerator.audit.AuditBusinessObjectEnhanced;
 import com.example.demo.zynerator.criteria.BaseCriteriaEnhanced;
-import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,7 +11,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractSpecificationEnhanced<Criteria extends BaseCriteriaEnhanced, T extends AuditBusinessObjectEnhanced> extends AbstractSpecification<Criteria, T>  {
+public abstract class AbstractSpecificationEnhanced<Criteria extends BaseCriteriaEnhanced, T extends AuditBusinessObjectEnhanced> extends AbstractSpecification<Criteria, T> {
 
 
     public AbstractSpecificationEnhanced(Criteria criteria) {
@@ -20,7 +19,7 @@ public abstract class AbstractSpecificationEnhanced<Criteria extends BaseCriteri
     }
 
     public AbstractSpecificationEnhanced(Criteria criteria, boolean distinct) {
-        super(criteria,distinct);
+        super(criteria, distinct);
     }
 
 
@@ -33,14 +32,13 @@ public abstract class AbstractSpecificationEnhanced<Criteria extends BaseCriteri
             constructPredicates();
             addOrderAndFilter();
         }
-    return getResult();
+        return getResult();
     }
 
     private void addEnhacedPredicate() {
-        addPredicateBool("actif",criteria.isActif());
-        addPredicate("ordre",criteria.getOrdre(), criteria.getOrdreLike());
+        addPredicateBool("actif", criteria.isActif());
+        addPredicate("ordre", criteria.getOrdre(), criteria.getOrdreLike());
     }
-
 
 
 }

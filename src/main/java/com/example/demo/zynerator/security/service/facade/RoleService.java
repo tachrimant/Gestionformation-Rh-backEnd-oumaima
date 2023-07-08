@@ -1,4 +1,3 @@
-
 package com.example.demo.zynerator.security.service.facade;
 
 import com.example.demo.zynerator.security.bean.Role;
@@ -19,7 +18,7 @@ public interface RoleService {
 
     List<Role> create(List<Role> roles);
 
-    public Role update(Role role);
+    Role update(Role role);
 
     int delete(Role role);
 

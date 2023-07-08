@@ -15,7 +15,6 @@ import com.example.demo.zynerator.specification.AbstractSpecification;
 import com.example.demo.zynerator.util.ListUtil;
 import com.example.demo.zynerator.util.RefelexivityUtil;
 import com.example.demo.zynerator.util.StringUtil;
-import com.example.demo.zynerator.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -91,7 +90,7 @@ public abstract class AbstractServiceImpl<T extends AuditBusinessObject, H exten
                 }
             }
         }
-    return result;
+        return result;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, readOnly = false)
@@ -143,7 +142,7 @@ public abstract class AbstractServiceImpl<T extends AuditBusinessObject, H exten
     }
 
     public T findById(Long id) {
-    Optional<T> item = dao.findById(id);
+        Optional<T> item = dao.findById(id);
         return item.orElse(null);
     }
 
@@ -172,7 +171,7 @@ public abstract class AbstractServiceImpl<T extends AuditBusinessObject, H exten
         List<T> list = new ArrayList<>();
         for (T t : items) {
             T founded = findByReferenceEntity(t);
-                if (founded == null) {
+            if (founded == null) {
                 findOrSaveAssociatedObject(t);
                 dao.save(t);
             } else {
@@ -210,7 +209,7 @@ public abstract class AbstractServiceImpl<T extends AuditBusinessObject, H exten
             for (T t : list) {
                 deleteAssociatedLists(t.getId());
                 dao.deleteById(t.getId()); // il fait find by id apres delete !!!
-            //constructAndSaveHistory(dto, ACTION_TYPE.DELETE); TO DO
+                //constructAndSaveHistory(dto, ACTION_TYPE.DELETE); TO DO
             }
         }
     }
@@ -236,7 +235,7 @@ public abstract class AbstractServiceImpl<T extends AuditBusinessObject, H exten
 
     public List<T> findAll() {
         return dao.findAll();
-        }
+    }
 
 
     private AbstractSpecification<CRITERIA, T> constructSpecification(CRITERIA criteria) {
@@ -331,19 +330,16 @@ public abstract class AbstractServiceImpl<T extends AuditBusinessObject, H exten
     public abstract void configure();
 
 
-
-
     public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal != null && principal instanceof User) {
-        return (User) principal;
+            return (User) principal;
         } else if (principal != null && principal instanceof String) {
-        return userService.findByUsername(principal.toString());
+            return userService.findByUsername(principal.toString());
         } else {
-        return null;
+            return null;
         }
     }
-
 
 
     //************************************************** UPDATE ***********************************

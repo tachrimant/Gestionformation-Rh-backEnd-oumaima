@@ -1,7 +1,6 @@
 package com.example.demo.zynerator.process;
 
 
-
 import com.example.demo.zynerator.audit.AuditBusinessObject;
 
 public abstract class AbstractProcessConverter<I extends AbstractProcessInput, O extends AbstractProcessOutput, T extends AuditBusinessObject> {
@@ -21,4 +20,4 @@ public abstract class AbstractProcessConverter<I extends AbstractProcessInput, O
     public abstract O toOutput(T item);
 
 
-    }
+}

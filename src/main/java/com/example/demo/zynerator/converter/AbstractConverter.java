@@ -1,15 +1,11 @@
 package com.example.demo.zynerator.converter;
 
 
-import com.example.demo.zynerator.util.ListUtil;
 import com.example.demo.zynerator.audit.AuditBusinessObject;
 import com.example.demo.zynerator.bean.BusinessObject;
 import com.example.demo.zynerator.dto.AuditBaseDto;
 import com.example.demo.zynerator.dto.BaseDto;
-import com.example.demo.zynerator.util.DateUtil;
-import com.example.demo.zynerator.util.RefelexivityUtil;
-import com.example.demo.zynerator.util.StringUtil;
-import com.example.demo.zynerator.util.Utils;
+import com.example.demo.zynerator.util.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -35,7 +31,7 @@ public abstract class AbstractConverter<T extends BusinessObject, DTO extends Ba
 
     public void copy(DTO dto, T t) {
         T myItem = toItem(dto);
-        Utils.copyNonNullProperties(myItem,t);
+        Utils.copyNonNullProperties(myItem, t);
     }
 
     public List<T> toItem(List<DTO> dtos) {
@@ -54,7 +50,7 @@ public abstract class AbstractConverter<T extends BusinessObject, DTO extends Ba
             try {
                 result = itemType.getDeclaredConstructor(Long.class).newInstance(dto.getId());
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
-                     InvocationTargetException e) {
+                    InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -67,7 +63,7 @@ public abstract class AbstractConverter<T extends BusinessObject, DTO extends Ba
             try {
                 result = dtoType.getDeclaredConstructor(Long.class).newInstance(t.getId());
             } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
-                     InvocationTargetException e) {
+                    InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -133,8 +129,9 @@ public abstract class AbstractConverter<T extends BusinessObject, DTO extends Ba
 
     public List<DTO> copyIncludeExcludeDtos(List<DTO> dtoSources, String[] includes, String[] excludes) {
         return ListUtil.emptyIfNull(dtoSources).stream().map(dto -> copyIncludeExclude(dto, includes, excludes))
-               .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
+
     public T copyIncludeExclude(T tSource, String[] includes, String[] excludes) {
         T tTarget = RefelexivityUtil.constructObjectUsingDefaultConstr(itemType);
         return copy(tSource, tTarget, includes, excludes);
@@ -142,7 +139,7 @@ public abstract class AbstractConverter<T extends BusinessObject, DTO extends Ba
 
     public List<T> copyIncludeExcludeItems(List<T> tSources, String[] includes, String[] excludes) {
         return ListUtil.emptyIfNull(tSources).stream().map(t -> copyIncludeExclude(t, includes, excludes))
-        .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     private DTO copy(DTO dtoSource, DTO dtoTarget, String[] includes, String[] excludes) {
@@ -166,24 +163,24 @@ public abstract class AbstractConverter<T extends BusinessObject, DTO extends Ba
             if (StringUtil.isNoEmpty(excludes))
                 RefelexivityUtil.copyExcludesProperties(itemSource, itemTarget, excludes);
 
-        itemTarget.setId(itemSource.getId());
-        return itemTarget;
+            itemTarget.setId(itemSource.getId());
+            return itemTarget;
         }
 
         return itemSource;
     }
 
 
-    public void init(boolean initialisation){
+    public void init(boolean initialisation) {
         initObject(initialisation);
         initList(initialisation);
     }
 
-    public void initObject(boolean initialisationObject){
+    public void initObject(boolean initialisationObject) {
 
     }
 
-    public void initList(boolean initialisationList){
+    public void initList(boolean initialisationList) {
 
     }
 

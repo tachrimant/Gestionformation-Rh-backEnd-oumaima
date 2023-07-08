@@ -1,13 +1,12 @@
 package com.example.demo.zynerator.audit;
 
+import com.example.demo.zynerator.bean.BusinessObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.example.demo.zynerator.bean.BusinessObject;
+
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-
-
 import java.time.LocalDateTime;
 
 /**

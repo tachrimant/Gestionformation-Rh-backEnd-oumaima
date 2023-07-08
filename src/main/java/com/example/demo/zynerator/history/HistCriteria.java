@@ -1,7 +1,7 @@
 package com.example.demo.zynerator.history;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.example.demo.zynerator.criteria.BaseCriteria;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 

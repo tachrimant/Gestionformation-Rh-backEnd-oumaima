@@ -14,6 +14,16 @@ import java.util.List;
 
 public abstract class AbstractSpecification<Criteria extends BaseCriteria, T extends AuditBusinessObject> extends SpecificationHelper<Criteria, T> implements Specification<T> {
 
+    public AbstractSpecification(Criteria criteria) {
+        this.criteria = criteria;
+    }
+
+
+    public AbstractSpecification(Criteria criteria, boolean distinct) {
+        this.criteria = criteria;
+        this.distinct = distinct;
+    }
+
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         List<Predicate> predicates = new ArrayList<>();
@@ -25,17 +35,7 @@ public abstract class AbstractSpecification<Criteria extends BaseCriteria, T ext
         return getResult();
     }
 
-
     public abstract void constructPredicates();
-
-    public AbstractSpecification(Criteria criteria) {
-        this.criteria = criteria;
-    }
-
-    public AbstractSpecification(Criteria criteria, boolean distinct) {
-        this.criteria = criteria;
-        this.distinct = distinct;
-    }
 
 
 }

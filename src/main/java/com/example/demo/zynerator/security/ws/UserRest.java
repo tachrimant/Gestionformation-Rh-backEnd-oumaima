@@ -17,7 +17,7 @@ public class UserRest {
 
     @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @GetMapping("/")
-    public List<User> findAll(){
+    public List<User> findAll() {
         return this.userService.findAll();
     }
 

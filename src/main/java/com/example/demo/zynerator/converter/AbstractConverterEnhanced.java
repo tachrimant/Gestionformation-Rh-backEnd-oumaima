@@ -6,10 +6,10 @@ import com.example.demo.zynerator.bean.BusinessObject;
 import com.example.demo.zynerator.dto.AuditBaseDtoEnhanced;
 import com.example.demo.zynerator.util.StringUtil;
 
-public abstract class AbstractConverterEnhanced<T extends AuditBusinessObjectEnhanced, DTO extends AuditBaseDtoEnhanced, H extends BusinessObject> extends AbstractConverter<T,DTO,H>{
+public abstract class AbstractConverterEnhanced<T extends AuditBusinessObjectEnhanced, DTO extends AuditBaseDtoEnhanced, H extends BusinessObject> extends AbstractConverter<T, DTO, H> {
 
     protected AbstractConverterEnhanced(Class<T> itemType, Class<DTO> dtoType, Class<H> historyType) {
-                super(itemType,dtoType,historyType);
+        super(itemType, dtoType, historyType);
     }
 
 

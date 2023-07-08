@@ -1,7 +1,6 @@
 package com.example.demo.zynerator.bean;
 
 import javax.persistence.Transient;
-
 import java.io.Serializable;
 
 

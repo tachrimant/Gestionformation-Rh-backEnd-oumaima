@@ -4,5 +4,5 @@ import com.example.demo.zynerator.security.bean.Permission;
 
 
 public interface PermissionService {
-    public Permission save(Permission permission);
+    Permission save(Permission permission);
 }

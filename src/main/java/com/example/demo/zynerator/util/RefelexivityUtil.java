@@ -31,7 +31,7 @@ public class RefelexivityUtil {
         try {
             return myclass.getDeclaredConstructor().newInstance();
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
-                 InvocationTargetException e) {
+                InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
@@ -41,7 +41,7 @@ public class RefelexivityUtil {
         try {
             return myclass.getDeclaredConstructor(param.getClass()).newInstance(param);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
-                 InvocationTargetException e) {
+                InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
