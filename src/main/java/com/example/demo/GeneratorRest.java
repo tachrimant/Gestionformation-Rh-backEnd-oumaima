@@ -39,7 +39,7 @@ public class GeneratorRest {
 
                 if (generateFind){
                     String findmethod = "    public " + entityName  + " find" + entityName +
-                            "By" + attributeName.substring(0,1).toUpperCase() + attributeName.substring(1).toLowerCase() + "(" + attributeType + " " + attributeName + ");\n";
+                            "By" + attributeName.substring(0,1).toUpperCase() + attributeName.substring(1) + "(" + attributeType + " " + attributeName + ");\n";
                     attributesGenerateFindDaoEtFacade.add(findmethod);
 
                     String findmethodImpl = "    @Override \n" + "    public " + entityName  + " find" + entityName +
@@ -149,6 +149,9 @@ public class GeneratorRest {
                 "import com.example.demo.dto." + entityName + "Dto;\n\n" +
                 "import org.springframework.stereotype.Repository;\n"+
                 "import java.util.List;\n" +
+                "import java.time.LocalDate;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.util.Date;\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
                 "@Repository\n"+
                 "public interface " + daoInterfaceName + " extends JpaRepository<" + entityName + ", Long> {\n" +
@@ -164,7 +167,9 @@ public class GeneratorRest {
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
                 "import com.example.demo.dto." + entityName + "Dto;\n\n" +
                 "import java.util.List;\n\n" +
-
+                "import java.time.LocalDate;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.util.Date;\n" +
                 "public interface " + facadeInterfaceName + " {\n" +
                 "    void save(" + entityName + " " + entityName.toLowerCase() + ");\n" +
                 "    void edit(" + entityName + " " + entityName.toLowerCase() + ");\n" +
@@ -187,6 +192,9 @@ public class GeneratorRest {
                 "import com.example.demo.service.facade."+ entityName +"Service;\n\n"+
                 "import " + GeneratorRest.basePackage + ".dao." + entityName + "Dao;\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
+                "import java.time.LocalDate;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.util.Date;\n\n" +
                 "@Service\n" +
                 "public class " + implementationClassName + " implements " + facadeInterfaceName + " {\n" +
                 "    @Autowired\n" +
@@ -225,6 +233,9 @@ public class GeneratorRest {
                 "import com.example.demo.dto." + entityName + "Dto;\n\n" +
                 "import org.springframework.web.bind.annotation.*;\n" +
                 "import java.util.List;\n" +
+                "import java.time.LocalDate;\n" +
+                "import java.time.LocalDateTime;\n" +
+                "import java.util.Date;\n\n" +
                 "import " + facadePackageName + "." + entityName + "Service;\n" +
                 "import " + GeneratorRest.basePackage + ".entities." + entityName + ";\n\n" +
                 "@RestController\n" +

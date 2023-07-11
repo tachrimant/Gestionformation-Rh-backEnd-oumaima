@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -79,6 +80,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader(SecurityParams.JWT_HEADER_NAME, SecurityParams.HEADER_PREFIX + jwt);
         //response.addHeader(SecurityParams.JWT_HEADER_NAME,jwt);
         System.out.println(jwt);
+
+        HashMap<String, Object> idToken = new HashMap<String, Object>();
+        idToken.put("access_token", jwt);
+
+        idToken.put("expires_in", SecurityParams.EXPIRATION);
+        idToken.put("token_type", "Bearer");
+        new ObjectMapper().writeValue(response.getOutputStream(),idToken);
     }
 
 }
