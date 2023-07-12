@@ -27,7 +27,15 @@ public class TacheServiceImplementation implements TacheService {
 
     @Override
     public void edit(Tache tache) {
-        tacheDao.save(tache);
+        Tache tache1 = findById(tache.getId());
+        if (tache1 != null){
+            tache1.setDateDebut(tache.getDateDebut());
+            tache1.setDateFin(tache.getDateFin());
+            tache1.setEmploye(tache.getEmploye());
+            tache1.setLibelle(tache.getLibelle());
+            tache1.setProjet(tache.getProjet());
+            tacheDao.saveAndFlush(tache1);
+        }
     }
 
     @Override

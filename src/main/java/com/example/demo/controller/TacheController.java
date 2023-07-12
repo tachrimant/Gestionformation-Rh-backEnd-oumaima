@@ -27,8 +27,9 @@ public class TacheController {
     }
 
     @PutMapping("/")
-    public void edit(@RequestBody Tache tache) {
+    public List<Tache> edit(@RequestBody Tache tache) {
         tacheService.edit(tache);
+        return this.findAll();
     }
 
     @DeleteMapping("/{id}")

@@ -13,6 +13,7 @@ import com.example.demo.dao.EmployeDao;
 import com.example.demo.entities.Employe;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class EmployeServiceImplementation implements EmployeService {
@@ -26,7 +27,15 @@ public class EmployeServiceImplementation implements EmployeService {
 
     @Override
     public void edit(Employe employe) {
-        employeDao.save(employe);
+        Employe employe1 = findById(employe.getId());
+        if (employe1 != null){
+            employe1.setCin(employe.getCin());
+            employe1.setEmail(employe.getEmail());
+            employe1.setNom(employe.getNom());
+            employe1.setPrenom(employe.getPrenom());
+            employe1.setDatenaissance(employe.getDatenaissance());
+            employeDao.save(employe1);
+        }
     }
 
     @Override

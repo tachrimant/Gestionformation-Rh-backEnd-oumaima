@@ -26,8 +26,9 @@ public class EmployeController {
     }
 
     @PutMapping("/")
-    public void edit(@RequestBody Employe employe) {
+    public List<Employe> edit(@RequestBody Employe employe) {
         employeService.edit(employe);
+        return this.findAll();
     }
 
     @DeleteMapping("/{id}")
