@@ -28,7 +28,14 @@ public class DemandeDeficheDepaieServiceImplementation implements DemandeDefiche
 
     @Override
     public void edit(DemandeDeficheDepaie demandedefichedepaie) {
-        demandedefichedepaieDao.save(demandedefichedepaie);
+        DemandeDeficheDepaie demandeDeficheDepaie = findById(demandedefichedepaie.getId());
+        if (demandeDeficheDepaie != null){
+            demandeDeficheDepaie.setDatedemande(demandeDeficheDepaie.getDatedemande());
+            demandeDeficheDepaie.setEmploye(demandedefichedepaie.getEmploye());
+            demandeDeficheDepaie.setEtat(demandedefichedepaie.getEtat());
+            demandeDeficheDepaie.setDateEnvoieFiche(demandedefichedepaie.getDateEnvoieFiche());
+            demandedefichedepaieDao.save(demandedefichedepaie);
+        }
     }
 
     @Override
@@ -57,7 +64,7 @@ public class DemandeDeficheDepaieServiceImplementation implements DemandeDefiche
 }
 
         @Override 
-    public DemandeDeficheDepaie findDemandeDeficheDepaieByEtat(EtatDemandeFicheDepaie etat){
+    public DemandeDeficheDepaie findDemandeDeficheDepaieByEtat(String etat){
       return  demandedefichedepaieDao.findDemandeDeficheDepaieByEtat(etat);
 }
 

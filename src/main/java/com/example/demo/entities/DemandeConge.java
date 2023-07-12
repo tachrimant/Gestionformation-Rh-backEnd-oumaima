@@ -37,8 +37,7 @@ public class DemandeConge {
    private  Employe employee;
 
 
-    @ManyToOne() 
- private  EtatDemandeConge etat;
+ private  String etat;
 
 
 }

@@ -21,13 +21,15 @@ public class DemandeDeficheDepaieController {
     private DemandeDeficheDepaieService demandedefichedepaieService;
 
     @PostMapping("/")
-    public void save(@RequestBody DemandeDeficheDepaie demandedefichedepaie) {
+    public List<DemandeDeficheDepaie> save(@RequestBody DemandeDeficheDepaie demandedefichedepaie) {
         demandedefichedepaieService.save(demandedefichedepaie);
+        return findAll();
     }
 
     @PutMapping("/")
-    public void edit(@RequestBody DemandeDeficheDepaie demandedefichedepaie) {
+    public List<DemandeDeficheDepaie> edit(@RequestBody DemandeDeficheDepaie demandedefichedepaie) {
         demandedefichedepaieService.edit(demandedefichedepaie);
+        return findAll();
     }
 
     @DeleteMapping("/{id}")
@@ -55,7 +57,7 @@ public class DemandeDeficheDepaieController {
 }
 
         @GetMapping("/etat/{etat}")
-    public DemandeDeficheDepaie findDemandeDeficheDepaieByetat(@PathVariable EtatDemandeFicheDepaie etat){
+    public DemandeDeficheDepaie findDemandeDeficheDepaieByetat(@PathVariable String etat){
      return  demandedefichedepaieService.findDemandeDeficheDepaieByEtat( etat );
 }
 }

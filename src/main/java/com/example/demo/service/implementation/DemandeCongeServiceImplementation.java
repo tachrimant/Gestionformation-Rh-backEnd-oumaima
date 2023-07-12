@@ -70,4 +70,8 @@ public class DemandeCongeServiceImplementation implements DemandeCongeService {
       return  demandecongeDao.findDemandeCongeByJourCouvrable(jourCouvrable );
 }
 
+    @Override
+    public List<DemandeConge> findDemandeCongeByEtat(String etat) {
+        return demandecongeDao.findDemandeCongeByEtat(etat);
+    }
 }

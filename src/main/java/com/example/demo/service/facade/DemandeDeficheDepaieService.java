@@ -20,6 +20,6 @@ public interface DemandeDeficheDepaieService {
 
         public DemandeDeficheDepaie findDemandeDeficheDepaieByDatedemande(Date datedemande);
 
-        public DemandeDeficheDepaie findDemandeDeficheDepaieByEtat(EtatDemandeFicheDepaie etat);
+        public DemandeDeficheDepaie findDemandeDeficheDepaieByEtat(String etat);
 
 }

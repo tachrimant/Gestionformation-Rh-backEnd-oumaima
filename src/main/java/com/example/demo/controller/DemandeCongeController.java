@@ -66,5 +66,10 @@ public class DemandeCongeController {
         @GetMapping("/jourCouvrable/{jourCouvrable}")
     public DemandeConge findDemandeCongeByjourCouvrable(@PathVariable int jourCouvrable){
      return  demandecongeService.findDemandeCongeByJourcouvrable( jourCouvrable );
-}
+    }
+
+    @GetMapping("/etat/{etat}")
+    public List<DemandeConge> findDemandeCongeByEtat(@PathVariable String etat) {
+        return demandecongeService.findDemandeCongeByEtat(etat);
+    }
 }

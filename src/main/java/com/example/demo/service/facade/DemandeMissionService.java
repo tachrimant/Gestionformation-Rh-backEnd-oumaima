@@ -24,6 +24,6 @@ public interface DemandeMissionService {
 
         public DemandeMission findDemandeMissionByDatefin(Date dateFin);
 
-        public DemandeMission findDemandeMissionByEtat(EtatDemandeMission etat);
+        public DemandeMission findDemandeMissionByEtat(String etat);
 
 }

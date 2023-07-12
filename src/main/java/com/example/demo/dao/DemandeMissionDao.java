@@ -21,6 +21,6 @@ public interface DemandeMissionDao extends JpaRepository<DemandeMission, Long> {
 
         public DemandeMission findDemandeMissionByDateFin(Date dateFin);
 
-        public DemandeMission findDemandeMissionByEtat(EtatDemandeMission etat);
+        public DemandeMission findDemandeMissionByEtat(String etat);
 
 }

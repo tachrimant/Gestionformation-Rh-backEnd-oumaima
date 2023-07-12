@@ -28,7 +28,15 @@ public class DemandeMissionServiceImplementation implements DemandeMissionServic
 
     @Override
     public void edit(DemandeMission demandemission) {
-        demandemissionDao.save(demandemission);
+        DemandeMission demandeMission = findById(demandemission.getId());
+        if (demandeMission != null){
+            demandeMission.setDateDebut(demandemission.getDateDebut());
+            demandeMission.setDateFin(demandemission.getDateFin());
+            demandeMission.setEmployee(demandemission.getEmployee());
+            demandeMission.setEtat(demandemission.getEtat());
+            demandeMission.setLibelle(demandemission.getLibelle());
+            demandemissionDao.save(demandemission);
+        }
     }
 
     @Override
@@ -67,7 +75,7 @@ public class DemandeMissionServiceImplementation implements DemandeMissionServic
 }
 
         @Override 
-    public DemandeMission findDemandeMissionByEtat(EtatDemandeMission etat){
+    public DemandeMission findDemandeMissionByEtat(String etat){
       return  demandemissionDao.findDemandeMissionByEtat(etat);
 }
 

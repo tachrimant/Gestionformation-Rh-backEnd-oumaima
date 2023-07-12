@@ -1,37 +1,33 @@
 package com.example.demo.entities;
 
-import javax.persistence.*;
-import java.util.List;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DemandeDeficheDepaie {
+public class Contrat {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String code;
 
+    private String libelle;
 
-    private Date datedemande;
+    private Date dateDebut;
 
+    private Date dateFin;
 
-    private Date dateEnvoieFiche;
+    private String typeContrat;
 
-
-    @ManyToOne() 
+    @OneToOne
     private  Employe employe;
-
-
-    private  String etat;
-
 
 }

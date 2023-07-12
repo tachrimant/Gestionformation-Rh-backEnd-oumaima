@@ -2,12 +2,9 @@ package com.example.demo.service.facade;
 
 import com.example.demo.entities.DemandeConge;
 
-import com.example.demo.dto.DemandeCongeDto;
 
 import java.util.List;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 public interface DemandeCongeService {
     void save(DemandeConge demandeconge);
@@ -24,5 +21,7 @@ public interface DemandeCongeService {
         public DemandeConge findDemandeCongeByDatefin(Date dateFin);
 
         public DemandeConge findDemandeCongeByJourcouvrable(int jourCouvrable);
+
+        public List<DemandeConge> findDemandeCongeByEtat(String etat);
 
 }

@@ -22,4 +22,6 @@ public interface DemandeCongeDao extends JpaRepository<DemandeConge, Long> {
 
         public DemandeConge findDemandeCongeByJourCouvrable(int jourCouvrable);
 
+        public List<DemandeConge> findDemandeCongeByEtat(String etat);
+
 }

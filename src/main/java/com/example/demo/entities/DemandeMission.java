@@ -34,8 +34,7 @@ public class DemandeMission {
  private  Employe employee;
 
 
-    @ManyToOne() 
- private  EtatDemandeMission etat;
+ private  String etat;
 
 
 }
