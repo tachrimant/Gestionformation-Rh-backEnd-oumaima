@@ -3,9 +3,9 @@ package com.example.demo.entities;
 import javax.persistence.*;
 import java.util.List;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,8 +30,8 @@ public class Projet {
     private Date dateFin;
 
 
-    @OneToMany(mappedBy="projet") 
- private  List<Tache> tachesList;
-
+    @OneToMany(mappedBy="projet")
+    @JsonIgnore
+   private  List<Tache> tachesList;
 
 }

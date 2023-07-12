@@ -20,8 +20,10 @@ public class TacheController {
     private TacheService tacheService;
 
     @PostMapping("/")
-    public void save(@RequestBody Tache tache) {
+    public List<Tache> save(@RequestBody Tache tache) {
         tacheService.save(tache);
+
+        return this.findAll();
     }
 
     @PutMapping("/")
@@ -30,8 +32,9 @@ public class TacheController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public List<Tache> deleteById(@PathVariable Long id) {
         tacheService.deleteById(id);
+        return this.findAll();
     }
 
     @GetMapping("/{id}")

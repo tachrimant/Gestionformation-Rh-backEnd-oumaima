@@ -20,8 +20,9 @@ public class ProjetController {
     private ProjetService projetService;
 
     @PostMapping("/")
-    public void save(@RequestBody Projet projet) {
+    public List<Projet> save(@RequestBody Projet projet) {
         projetService.save(projet);
+        return findAll();
     }
 
     @PutMapping("/")

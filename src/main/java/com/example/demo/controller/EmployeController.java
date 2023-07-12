@@ -31,8 +31,9 @@ public class EmployeController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public List<Employe> deleteById(@PathVariable Long id) {
         employeService.deleteById(id);
+        return this.findAll();
     }
 
     @GetMapping("/{id}")
