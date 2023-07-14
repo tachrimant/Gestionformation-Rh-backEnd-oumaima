@@ -14,7 +14,7 @@ public interface DemandeCongeService {
     List<DemandeConge> findAll();
     public DemandeConge findDemandeCongeByCode(String code);
 
-        public DemandeConge findDemandeCongeByLibelle(String libelle);
+        public List<DemandeConge> findDemandeCongeByLibelle(String libelle);
 
         public DemandeConge findDemandeCongeByDatedebut(Date dateDebut);
 

@@ -16,7 +16,8 @@ public interface DemandeDeficheDepaieService {
     void deleteById(Long id);
     DemandeDeficheDepaie findById(Long id);
     List<DemandeDeficheDepaie> findAll();
-    public DemandeDeficheDepaie findDemandeDeficheDepaieByCode(String code);
+
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByCode(String code);
 
         public DemandeDeficheDepaie findDemandeDeficheDepaieByDatedemande(Date datedemande);
 

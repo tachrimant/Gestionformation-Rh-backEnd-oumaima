@@ -3,6 +3,7 @@ package com.example.demo.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.dto.DemandeCongeDto;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.time.LocalDate;
@@ -14,7 +15,9 @@ import com.example.demo.entities.DemandeConge;
 public interface DemandeCongeDao extends JpaRepository<DemandeConge, Long> {
         public DemandeConge findDemandeCongeByCode(String code);
 
-        public DemandeConge findDemandeCongeByLibelle(String libelle);
+
+        @Query(value = "SELECT d FROM DemandeConge d WHERE d.libelle LIKE CONCAT('%', :libelle, '%')")
+        public List<DemandeConge> findDemandeCongeByLibelle(String libelle);
 
         public DemandeConge findDemandeCongeByDateDebut(Date dateDebut);
 

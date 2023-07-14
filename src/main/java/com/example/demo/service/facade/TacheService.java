@@ -15,7 +15,7 @@ public interface TacheService {
     void deleteById(Long id);
     Tache findById(Long id);
     List<Tache> findAll();
-    public Tache findTacheByCode(String code);
+    public List<Tache> findTacheByCode(String code);
 
         public Tache findTacheByLibelle(String libelle);
 

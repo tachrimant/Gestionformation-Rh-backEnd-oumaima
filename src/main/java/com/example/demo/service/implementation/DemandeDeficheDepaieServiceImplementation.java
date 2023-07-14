@@ -54,7 +54,7 @@ public class DemandeDeficheDepaieServiceImplementation implements DemandeDefiche
     }
 
     @Override 
-    public DemandeDeficheDepaie findDemandeDeficheDepaieByCode(String code){
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByCode(String code){
       return  demandedefichedepaieDao.findDemandeDeficheDepaieByCode(code );
 }
 

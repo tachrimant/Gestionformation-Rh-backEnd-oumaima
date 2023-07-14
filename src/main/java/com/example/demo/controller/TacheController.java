@@ -48,7 +48,7 @@ public class TacheController {
         return tacheService.findAll();
     }
     @GetMapping("/code/{code}")
-    public Tache findTacheBycode(@PathVariable String code){
+    public List<Tache> findTacheBycode(@PathVariable String code){
      return  tacheService.findTacheByCode( code );
 }
 
