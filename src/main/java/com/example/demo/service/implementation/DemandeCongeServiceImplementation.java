@@ -51,7 +51,7 @@ public class DemandeCongeServiceImplementation implements DemandeCongeService {
 }
 
         @Override 
-    public DemandeConge findDemandeCongeByLibelle(String libelle){
+    public List<DemandeConge> findDemandeCongeByLibelle(String libelle){
       return  demandecongeDao.findDemandeCongeByLibelle(libelle );
 }
 

@@ -47,7 +47,7 @@ public class DemandeDeficheDepaieController {
         return demandedefichedepaieService.findAll();
     }
     @GetMapping("/code/{code}")
-    public DemandeDeficheDepaie findDemandeDeficheDepaieBycode(@PathVariable String code){
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieBycode(@PathVariable String code){
      return  demandedefichedepaieService.findDemandeDeficheDepaieByCode( code );
 }
 
@@ -59,5 +59,6 @@ public class DemandeDeficheDepaieController {
         @GetMapping("/etat/{etat}")
     public DemandeDeficheDepaie findDemandeDeficheDepaieByetat(@PathVariable String etat){
      return  demandedefichedepaieService.findDemandeDeficheDepaieByEtat( etat );
-}
+    }
+
 }

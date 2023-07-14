@@ -20,8 +20,9 @@ public class DemandeCongeController {
     private DemandeCongeService demandecongeService;
 
     @PostMapping("/")
-    public void save(@RequestBody DemandeConge demandeconge) {
+    public List<DemandeConge> save(@RequestBody DemandeConge demandeconge) {
         demandecongeService.save(demandeconge);
+        return this.findAll();
     }
 
     @PutMapping("/")
@@ -49,7 +50,7 @@ public class DemandeCongeController {
 }
 
         @GetMapping("/libelle/{libelle}")
-    public DemandeConge findDemandeCongeBylibelle(@PathVariable String libelle){
+    public List<DemandeConge> findDemandeCongeBylibelle(@PathVariable String libelle){
      return  demandecongeService.findDemandeCongeByLibelle( libelle );
 }
 
