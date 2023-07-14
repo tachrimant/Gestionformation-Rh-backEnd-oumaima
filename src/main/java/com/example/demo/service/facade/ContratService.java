@@ -18,7 +18,7 @@ public interface ContratService {
 
     List<Contrat> findAll();
 
-    public Contrat findContratByCode(String code);
+    public List<Contrat> findContratByCode(String code);
 
     public Contrat findContratByLibelle(String libelle);
 

@@ -54,7 +54,7 @@ public class TacheServiceImplementation implements TacheService {
     }
 
     @Override 
-    public Tache findTacheByCode(String code){
+    public List<Tache> findTacheByCode(String code){
       return  tacheDao.findTacheByCode(code );
 }
 

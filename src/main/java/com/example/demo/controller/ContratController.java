@@ -44,7 +44,7 @@ public class ContratController {
         return contratService.findAll();
     }
     @GetMapping("/code/{code}")
-    public Contrat findContratBycode(@PathVariable String code){
+    public List<Contrat> findContratBycode(@PathVariable String code){
      return  contratService.findContratByCode( code );
 }
 
@@ -68,4 +68,5 @@ public class ContratController {
     public List<Contrat> findContratByTypeContrat(@PathVariable String typeContrat) {
         return contratService.findContratByTypeContrat(typeContrat);
     }
+
 }

@@ -51,7 +51,7 @@ public class ContratServiceImplementation implements ContratService {
     }
 
     @Override 
-    public Contrat findContratByCode(String code){
+    public List<Contrat> findContratByCode(String code){
       return  contratDao.findContratByCode(code );
 }
 

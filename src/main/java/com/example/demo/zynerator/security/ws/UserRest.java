@@ -4,8 +4,10 @@ import com.example.demo.zynerator.security.bean.User;
 import com.example.demo.zynerator.security.service.facade.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequestMapping("/api/users")
@@ -53,6 +55,11 @@ public class UserRest {
     @GetMapping("/username/{username}")
     public User findByUsernameWithRoles(@PathVariable String username) {
         return userService.findByUsernameWithRoles(username);
+    }
+
+    @GetMapping (path = "/profile")
+    public UserDetails profile(Principal principal){
+        return userService.loadUserByUsername(principal.getName());
     }
 
     @DeleteMapping("/username/{username}")
