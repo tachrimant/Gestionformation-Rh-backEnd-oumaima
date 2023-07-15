@@ -18,6 +18,8 @@ public interface TacheDao extends JpaRepository<Tache, Long> {
 
         public List<Tache> findTacheByCode(String code);
 
+        public List<Tache> findTachesByEmployeId(Long id);
+
         public Tache findTacheByLibelle(String libelle);
 
         public Tache findTacheByDateDebut(Date dateDebut);

@@ -73,4 +73,9 @@ public class TacheServiceImplementation implements TacheService {
       return  tacheDao.findTacheByDateFin(dateFin );
 }
 
+    @Override
+    public List<Tache> findTachesByEmployeId(Long id) {
+        return tacheDao.findTachesByEmployeId(id);
+    }
+
 }

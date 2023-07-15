@@ -23,4 +23,6 @@ public interface TacheService {
 
         public Tache findTacheByDatefin(Date dateFin);
 
+        public List<Tache> findTachesByEmployeId(Long id);
+
 }

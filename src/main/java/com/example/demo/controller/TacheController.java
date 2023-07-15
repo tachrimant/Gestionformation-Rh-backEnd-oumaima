@@ -65,5 +65,10 @@ public class TacheController {
         @GetMapping("/dateFin/{dateFin}")
     public Tache findTacheBydateFin(@PathVariable Date dateFin){
      return  tacheService.findTacheByDatefin( dateFin );
-}
+        }
+
+        @GetMapping("/employe/{id}")
+    public List<Tache> findTacheBydateFin(@PathVariable Long id){
+     return  tacheService.findTachesByEmployeId( id );
+        }
 }
