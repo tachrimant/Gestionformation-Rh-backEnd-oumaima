@@ -33,7 +33,7 @@ public class FormationEmployeController {
     }
 
     @GetMapping("/id/{id}")
-    public FormationemEmploye findById(Long id) {
+    public FormationemEmploye findById(@PathVariable Long id) {
         return formationEmployeService.findById(id);
     }
 
