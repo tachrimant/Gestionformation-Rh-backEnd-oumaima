@@ -20,9 +20,8 @@ public class DemandeCongeController {
     private DemandeCongeService demandecongeService;
 
     @PostMapping("/")
-    public List<DemandeConge> save(@RequestBody DemandeConge demandeconge) {
+    public void save(@RequestBody DemandeConge demandeconge) {
         demandecongeService.save(demandeconge);
-        return this.findAll();
     }
 
     @PutMapping("/")
