@@ -18,7 +18,7 @@ public class FormationEmployeController {
     private FormationEmployeService formationEmployeService;
 
     @PostMapping("/")
-    public void save(@RequestBody FormationemEmploye formation) {
+    public void save(@RequestBody FormationemEmploye formation) throws Exception {
         formationEmployeService.save(formation);
     }
 

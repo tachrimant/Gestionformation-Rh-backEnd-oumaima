@@ -18,4 +18,6 @@ public interface FormationEmployeDao extends JpaRepository<FormationemEmploye, L
 
     public List<FormationemEmploye> findFormationemEmployesByFormationId(Long id);
 
+    public FormationemEmploye findFormationemEmployeByEmployeIdAndFormationId(Long employeId, Long formationId);
+
 }

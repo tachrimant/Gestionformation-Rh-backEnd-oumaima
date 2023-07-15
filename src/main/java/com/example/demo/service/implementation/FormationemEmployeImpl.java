@@ -18,7 +18,9 @@ public class FormationemEmployeImpl implements FormationEmployeService {
 
 
     @Override
-    public void save(FormationemEmploye formationemEmploye) {
+    public void save(FormationemEmploye formationemEmploye) throws Exception {
+        if (formationEmployeDao.findFormationemEmployeByEmployeIdAndFormationId(formationemEmploye.getEmploye().getId(),formationemEmploye.getFormation().getId()) != null)
+            throw new Exception("vous avez deja une inscription dans cet formation");
         formationEmployeDao.save(formationemEmploye);
     }
 

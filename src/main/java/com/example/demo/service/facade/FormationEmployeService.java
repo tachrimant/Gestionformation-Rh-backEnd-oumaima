@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FormationEmployeService {
 
-    void save(FormationemEmploye formationemEmploye);
+    void save(FormationemEmploye formationemEmploye) throws Exception;
     void edit(FormationemEmploye formationemEmploye);
     void deleteById(Long id);
     FormationemEmploye findById(Long id);
