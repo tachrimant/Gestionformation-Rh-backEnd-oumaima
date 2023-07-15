@@ -69,8 +69,8 @@ public class DemandeDeficheDepaieServiceImplementation implements DemandeDefiche
 }
 
     @Override
-    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEMployeCin(String cin) {
-        return  demandedefichedepaieDao.findDemandeDeficheDepaieByEmployeCin(cin);
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEMployeId(Long id) {
+        return  demandedefichedepaieDao.findDemandeDeficheDepaieByEmployeId(id);
 
     }
 

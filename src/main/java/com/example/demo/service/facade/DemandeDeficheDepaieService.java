@@ -24,7 +24,7 @@ public interface DemandeDeficheDepaieService {
 
         public DemandeDeficheDepaie findDemandeDeficheDepaieByEtat(String etat);
 
-    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEMployeCin(String cin);
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEMployeId(Long id);
 
 
 }

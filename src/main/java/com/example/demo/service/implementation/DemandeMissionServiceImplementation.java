@@ -80,8 +80,8 @@ public class DemandeMissionServiceImplementation implements DemandeMissionServic
 }
 
     @Override
-    public List<DemandeMission> findDemandeMissionByEMployeCin(String cin) {
-        return demandemissionDao.findDemandeMissionByEmployeCin(cin);
+    public List<DemandeMission> findDemandeMissionByEMployeId(Long id) {
+        return demandemissionDao.findDemandeMissionByEmployeId(id);
     }
 
 }

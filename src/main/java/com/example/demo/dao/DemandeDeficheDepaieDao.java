@@ -19,8 +19,8 @@ public interface DemandeDeficheDepaieDao extends JpaRepository<DemandeDeficheDep
         @Query(value = "SELECT d FROM DemandeDeficheDepaie d WHERE d.code LIKE CONCAT('%', :code, '%')")
         public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByCode(String code);
 
-        @Query(value = "SELECT d FROM DemandeDeficheDepaie d WHERE d.employe.cin LIKE CONCAT('%', :cin, '%')")
-        List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeCin(String cin);
+        @Query(value = "SELECT d FROM DemandeDeficheDepaie d WHERE d.employe.id = :id")
+        List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeId(Long id);
 
         public DemandeDeficheDepaie findDemandeDeficheDepaieByDatedemande(Date datedemande);
 

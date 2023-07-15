@@ -63,9 +63,9 @@ public class DemandeDeficheDepaieController {
     }
 
 
-    @GetMapping("/cin/{cin}")
-    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeCin(@PathVariable String cin) {
-        return demandedefichedepaieService.findDemandeDeficheDepaieByEMployeCin(cin);
+    @GetMapping("/employe/{id}")
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeId(@PathVariable Long id) {
+        return demandedefichedepaieService.findDemandeDeficheDepaieByEMployeId(id);
     }
 
 }

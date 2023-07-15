@@ -76,7 +76,7 @@ public class DemandeCongeServiceImplementation implements DemandeCongeService {
     }
 
     @Override
-    public List<DemandeConge> findDemandeCongeByEMployeCin(String cin) {
-        return demandecongeDao.findDemandeCongeByEmployeCin(cin);
+    public List<DemandeConge> findDemandeCongeByEMployeId(Long id) {
+        return demandecongeDao.findDemandeCongeByEmployeId(id);
     }
 }
