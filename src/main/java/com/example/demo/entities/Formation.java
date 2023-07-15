@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,8 +32,9 @@ public class Formation {
 
     private Date dateFin;
 
-    @ManyToMany
-    @JsonIgnore
-   private  List<Employe> employes;
+
+    @OneToMany(mappedBy = "formation")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+     private  List<FormationemEmploye> formationemEmployes;
 
 }
