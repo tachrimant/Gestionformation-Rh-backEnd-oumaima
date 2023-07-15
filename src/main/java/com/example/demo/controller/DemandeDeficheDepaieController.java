@@ -22,15 +22,13 @@ public class DemandeDeficheDepaieController {
     private DemandeDeficheDepaieService demandedefichedepaieService;
 
     @PostMapping("/")
-    public List<DemandeDeficheDepaie> save(@RequestBody DemandeDeficheDepaie demandedefichedepaie) {
+    public void save(@RequestBody DemandeDeficheDepaie demandedefichedepaie) {
         demandedefichedepaieService.save(demandedefichedepaie);
-        return findAll();
     }
 
     @PutMapping("/")
-    public List<DemandeDeficheDepaie> edit(@RequestBody DemandeDeficheDepaie demandedefichedepaie) {
+    public void edit(@RequestBody DemandeDeficheDepaie demandedefichedepaie) {
         demandedefichedepaieService.edit(demandedefichedepaie);
-        return findAll();
     }
 
     @DeleteMapping("/{id}")

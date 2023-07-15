@@ -21,16 +21,13 @@ public class DemandeMissionController {
     private DemandeMissionService demandemissionService;
 
     @PostMapping("/")
-    public List<DemandeMission> save(@RequestBody DemandeMission demandemission) {
+    public void save(@RequestBody DemandeMission demandemission) {
         demandemissionService.save(demandemission);
-        return this.findAll();
     }
 
     @PutMapping("/")
-    public List<DemandeMission> edit(@RequestBody DemandeMission demandemission) {
+    public void edit(@RequestBody DemandeMission demandemission) {
         demandemissionService.edit(demandemission);
-        return this.findAll();
-
     }
 
     @DeleteMapping("/{id}")
