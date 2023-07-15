@@ -1,11 +1,18 @@
 package com.example.demo.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.dto.EmployeDto;
 
+import com.example.demo.zynerator.security.bean.Role;
+import com.example.demo.zynerator.security.bean.User;
+import com.example.demo.zynerator.security.common.AuthoritiesConstants;
+import com.example.demo.zynerator.security.service.facade.UserService;
 import com.example.demo.zynerator.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.demo.service.facade.EmployeService;
 
@@ -20,8 +27,23 @@ public class EmployeServiceImplementation implements EmployeService {
     @Autowired
     private EmployeDao employeDao;
 
+    @Autowired
+    @Lazy
+    PasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private UserService userService;
+
     @Override
     public void save(Employe employe) {
+        Role roleForUser = new Role();
+        roleForUser.setAuthority(AuthoritiesConstants.USER);
+        ArrayList<Role> listrole = new ArrayList();
+        listrole.add(roleForUser);
+        User user = new User(employe.getEmail(),employe.getUsername(),bCryptPasswordEncoder.encode(employe.getPassword()),
+                employe.getPrenom(),employe.getNom(),listrole,listrole);
+        userService.save(user);
+
         employeDao.save(employe);
     }
 

@@ -55,6 +55,16 @@ public class User implements UserDetails {
         this.email = username;
     }
 
+    public User(String email, String username, String password, String prenom, String nom, Collection<Role> roles, Collection<Role> authorities) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.roles = roles;
+        this.authorities = authorities;
+    }
+
     public List<String> getRolesByDomain() {
         rolesByDomain = ROLES_BY_DOMAIN;
         return rolesByDomain;

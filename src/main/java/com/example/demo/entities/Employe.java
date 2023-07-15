@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.example.demo.zynerator.security.bean.User;
 import com.example.demo.zynerator.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -17,24 +18,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employe {
+public class Employe extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String cin;
 
-
-    private String nom;
-
-
-    private String prenom;
-
-
-    private String email;
-
-
     @JsonFormat(locale = DateUtil.DEFAULT_DATE_FORMAT)
     private LocalDate datenaissance;
-
 
 }
