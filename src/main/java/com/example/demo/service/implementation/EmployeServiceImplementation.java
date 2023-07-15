@@ -40,11 +40,12 @@ public class EmployeServiceImplementation implements EmployeService {
         roleForUser.setAuthority(AuthoritiesConstants.USER);
         ArrayList<Role> listrole = new ArrayList();
         listrole.add(roleForUser);
-        User user = new User(employe.getEmail(),employe.getUsername(),bCryptPasswordEncoder.encode(employe.getPassword()),
-                employe.getPrenom(),employe.getNom(),listrole,listrole);
-        userService.save(user);
+        employe.setRoles(listrole);
+        employe.setPassword(bCryptPasswordEncoder.encode(employe.getPassword()));
 
-        employeDao.save(employe);
+        userService.save(employe);
+
+       // employeDao.save(employe);
     }
 
     @Override

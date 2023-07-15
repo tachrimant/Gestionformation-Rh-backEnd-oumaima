@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.zynerator.security.bean.Role;
+import com.example.demo.zynerator.security.common.AuthoritiesConstants;
+import com.example.demo.zynerator.security.service.facade.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.dto.EmployeDto;
 
@@ -8,6 +11,7 @@ import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import com.example.demo.service.facade.EmployeService;
 import com.example.demo.entities.Employe;
@@ -19,22 +23,28 @@ public class EmployeController {
     @Autowired
     private EmployeService employeService;
 
+    @Autowired
+    private RoleService roleService;
+
     @PostMapping("/")
     public List<Employe> save(@RequestBody Employe employe) {
         employeService.save(employe);
-        return this.findAll();
+        Role role = roleService.findByAuthority(AuthoritiesConstants.USER);
+        return this.findAll().stream().filter(employe1 -> employe1.getRoles().contains(role)).collect(Collectors.toList());
     }
 
     @PutMapping("/")
     public List<Employe> edit(@RequestBody Employe employe) {
         employeService.edit(employe);
-        return this.findAll();
+        Role role = roleService.findByAuthority(AuthoritiesConstants.USER);
+        return this.findAll().stream().filter(employe1 -> employe1.getRoles().contains(role)).collect(Collectors.toList());
     }
 
     @DeleteMapping("/{id}")
     public List<Employe> deleteById(@PathVariable Long id) {
         employeService.deleteById(id);
-        return this.findAll();
+        Role role = roleService.findByAuthority(AuthoritiesConstants.USER);
+        return this.findAll().stream().filter(employe1 -> employe1.getRoles().contains(role)).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -48,7 +58,8 @@ public class EmployeController {
     }
     @GetMapping("/cin/{cin}")
     public List<Employe> findEmployeBycin(@PathVariable String cin){
-     return  employeService.findEmployeByCin( cin );
+        Role role = roleService.findByAuthority(AuthoritiesConstants.USER);
+     return  employeService.findEmployeByCin( cin ).stream().filter(employe1 -> employe1.getRoles().contains(role)).collect(Collectors.toList());
 }
 
         @GetMapping("/nom/{nom}")

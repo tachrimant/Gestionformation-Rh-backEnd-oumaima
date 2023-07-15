@@ -6,11 +6,14 @@ import com.example.demo.zynerator.security.bean.User;
 import com.example.demo.zynerator.security.common.AuthoritiesConstants;
 import com.example.demo.zynerator.security.service.facade.RoleService;
 import com.example.demo.zynerator.security.service.facade.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,10 @@ import java.util.List;
 public class DemoApplication {
 
     public static ConfigurableApplicationContext ctx;
+
+    @Autowired
+    @Lazy
+    PasswordEncoder bCryptPasswordEncoder;
 
     public static ConfigurableApplicationContext getCtx() {
         return ctx;
@@ -32,10 +39,10 @@ public class DemoApplication {
     public CommandLineRunner demo(UserService userService, RoleService roleService) {
         return (args) -> {
             if(true){
-                User userForAdmin = new User("user");
+                User userForAdmin = new User("admin");
 
                 Role roleForAdmin = new Role();
-                roleForAdmin.setAuthority(AuthoritiesConstants.USER);
+                roleForAdmin.setAuthority(AuthoritiesConstants.ADMIN);
                 List<Permission> permissionsForAdmin = new ArrayList<>();
                 addPermissionForAdmin(permissionsForAdmin);
                 roleForAdmin.setPermissions(permissionsForAdmin);
@@ -43,6 +50,8 @@ public class DemoApplication {
                     userForAdmin.setRoles(new ArrayList<>());
 
                 userForAdmin.getRoles().add(roleForAdmin);
+                userForAdmin.setPassword(bCryptPasswordEncoder.encode("123"));
+
                 userService.save(userForAdmin);
             }
         };

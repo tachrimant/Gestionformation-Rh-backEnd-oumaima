@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employe extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

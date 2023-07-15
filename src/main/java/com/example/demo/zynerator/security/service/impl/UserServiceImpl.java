@@ -79,7 +79,6 @@ public class UserServiceImpl implements UserService {
     else {
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     }*/
-            user.setPassword(bCryptPasswordEncoder.encode("123"));
             user.setAccountNonExpired(true);
             user.setAccountNonLocked(true);
             user.setCredentialsNonExpired(true);
