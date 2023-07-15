@@ -10,6 +10,7 @@ import java.util.Date;
 import com.example.demo.zynerator.security.bean.User;
 import com.example.demo.zynerator.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,9 @@ public class Employe extends User {
 
     @JsonFormat(locale = DateUtil.DEFAULT_DATE_FORMAT)
     private LocalDate datenaissance;
+
+    @ManyToMany
+    @JsonIgnore
+    private List<Formation> formations;
 
 }

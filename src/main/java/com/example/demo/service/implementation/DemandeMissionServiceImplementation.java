@@ -84,4 +84,9 @@ public class DemandeMissionServiceImplementation implements DemandeMissionServic
         return demandemissionDao.findDemandeMissionByEmployeId(id);
     }
 
+    @Override
+    public List<DemandeMission> findDemandeMissionByEmployeIdAndLibelle(Long id, String libelle) {
+        return demandemissionDao.findDemandeMissionByEmployeIdAndLibelle(id,libelle);
+    }
+
 }

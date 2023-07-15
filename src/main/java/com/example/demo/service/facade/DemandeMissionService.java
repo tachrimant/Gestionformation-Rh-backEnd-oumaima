@@ -28,5 +28,8 @@ public interface DemandeMissionService {
 
     public List<DemandeMission> findDemandeMissionByEMployeId(Long id);
 
+    List<DemandeMission> findDemandeMissionByEmployeIdAndLibelle(Long id, String libelle);
+
+
 
 }

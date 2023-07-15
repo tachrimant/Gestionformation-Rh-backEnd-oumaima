@@ -25,4 +25,6 @@ public interface TacheService {
 
         public List<Tache> findTachesByEmployeId(Long id);
 
+        List<Tache> findTacheByEmployeIdAndLibelle(Long id, String libelle);
+
 }

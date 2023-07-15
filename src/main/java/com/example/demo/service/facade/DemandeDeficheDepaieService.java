@@ -26,5 +26,7 @@ public interface DemandeDeficheDepaieService {
 
     public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEMployeId(Long id);
 
+    List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeIdAndCode(Long id, String code);
+
 
 }

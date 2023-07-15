@@ -79,4 +79,9 @@ public class DemandeCongeServiceImplementation implements DemandeCongeService {
     public List<DemandeConge> findDemandeCongeByEMployeId(Long id) {
         return demandecongeDao.findDemandeCongeByEmployeId(id);
     }
+
+    @Override
+    public List<DemandeConge> findDemandeCongeByEmployeIdAndLibelle(Long id, String libelle) {
+        return demandecongeDao.findDemandeCongeByEmployeIdAndLibelle(id,libelle);
+    }
 }

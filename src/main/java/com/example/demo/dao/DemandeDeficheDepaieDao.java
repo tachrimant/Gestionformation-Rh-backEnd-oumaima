@@ -22,6 +22,9 @@ public interface DemandeDeficheDepaieDao extends JpaRepository<DemandeDeficheDep
         @Query(value = "SELECT d FROM DemandeDeficheDepaie d WHERE d.employe.id = :id")
         List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeId(Long id);
 
+        @Query(value = "SELECT d FROM DemandeDeficheDepaie d WHERE d.code LIKE CONCAT('%', :code, '%') AND d.employe.id = :id")
+        List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeIdAndCode(Long id, String code);
+
         public DemandeDeficheDepaie findDemandeDeficheDepaieByDatedemande(Date datedemande);
 
         public DemandeDeficheDepaie findDemandeDeficheDepaieByEtat(String etat);

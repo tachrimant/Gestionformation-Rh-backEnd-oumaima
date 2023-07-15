@@ -20,6 +20,9 @@ public interface TacheDao extends JpaRepository<Tache, Long> {
 
         public List<Tache> findTachesByEmployeId(Long id);
 
+        @Query(value = "SELECT t FROM Tache t WHERE t.projet.libelle LIKE CONCAT('%', :libelle, '%') AND t.employe.id = :id")
+        List<Tache> findTacheByEmployeIdAndLibelle(Long id, String libelle);
+
         public Tache findTacheByLibelle(String libelle);
 
         public Tache findTacheByDateDebut(Date dateDebut);

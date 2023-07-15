@@ -22,6 +22,9 @@ public interface DemandeCongeDao extends JpaRepository<DemandeConge, Long> {
         @Query(value = "SELECT d FROM DemandeConge d WHERE d.employee.id = :id")
         List<DemandeConge> findDemandeCongeByEmployeId(Long id);
 
+        @Query(value = "SELECT d FROM DemandeConge d WHERE d.libelle LIKE CONCAT('%', :libelle, '%') AND d.employee.id = :id")
+        List<DemandeConge> findDemandeCongeByEmployeIdAndLibelle(Long id, String libelle);
+
         public DemandeConge findDemandeCongeByDateDebut(Date dateDebut);
 
         public DemandeConge findDemandeCongeByDateFin(Date dateFin);

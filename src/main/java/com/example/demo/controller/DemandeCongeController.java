@@ -77,5 +77,10 @@ public class DemandeCongeController {
     public List<DemandeConge> findDemandeCongeByEmployeId(@PathVariable Long id) {
         return demandecongeService.findDemandeCongeByEMployeId(id);
     }
+
+    @GetMapping("libelle/{libelle}/employe/{id}")
+    public List<DemandeConge> findDemandeCongeByEmployeIdAndLibelle(@PathVariable Long id,@PathVariable String libelle) {
+        return demandecongeService.findDemandeCongeByEmployeIdAndLibelle(id, libelle);
+    }
 }
 

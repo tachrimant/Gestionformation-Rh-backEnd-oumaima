@@ -78,4 +78,9 @@ public class TacheServiceImplementation implements TacheService {
         return tacheDao.findTachesByEmployeId(id);
     }
 
+    @Override
+    public List<Tache> findTacheByEmployeIdAndLibelle(Long id, String libelle) {
+        return tacheDao.findTacheByEmployeIdAndLibelle(id,libelle);
+    }
+
 }

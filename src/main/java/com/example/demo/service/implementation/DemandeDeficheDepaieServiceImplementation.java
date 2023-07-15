@@ -74,4 +74,9 @@ public class DemandeDeficheDepaieServiceImplementation implements DemandeDefiche
 
     }
 
+    @Override
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeIdAndCode(Long id, String code) {
+        return demandedefichedepaieDao.findDemandeDeficheDepaieByEmployeIdAndCode(id,code);
+    }
+
 }

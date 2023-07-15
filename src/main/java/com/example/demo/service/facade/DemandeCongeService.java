@@ -27,4 +27,7 @@ public interface DemandeCongeService {
 
         public List<DemandeConge> findDemandeCongeByEMployeId(Long id);
 
+         List<DemandeConge> findDemandeCongeByEmployeIdAndLibelle(Long id, String libelle);
+
+
 }

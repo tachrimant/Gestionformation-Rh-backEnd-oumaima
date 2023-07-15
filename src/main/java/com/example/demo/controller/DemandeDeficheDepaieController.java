@@ -66,4 +66,8 @@ public class DemandeDeficheDepaieController {
         return demandedefichedepaieService.findDemandeDeficheDepaieByEMployeId(id);
     }
 
+    @GetMapping("code/{code}/employe/{id}")
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeIdAndCode(@PathVariable Long id,@PathVariable String code) {
+        return demandedefichedepaieService.findDemandeDeficheDepaieByEmployeIdAndCode(id, code);
+    }
 }

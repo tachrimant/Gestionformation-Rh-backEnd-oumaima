@@ -74,4 +74,8 @@ public class DemandeMissionController {
         return demandemissionService.findDemandeMissionByEMployeId(id);
     }
 
+    @GetMapping("libelle/{libelle}/employe/{id}")
+    public List<DemandeMission> findDemandeMissionByEmployeIdAndLibelle(@PathVariable Long id, @PathVariable String libelle) {
+        return demandemissionService.findDemandeMissionByEmployeIdAndLibelle(id, libelle);
+    }
 }

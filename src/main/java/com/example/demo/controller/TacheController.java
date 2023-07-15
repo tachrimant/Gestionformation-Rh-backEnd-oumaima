@@ -71,4 +71,9 @@ public class TacheController {
     public List<Tache> findTacheBydateFin(@PathVariable Long id){
      return  tacheService.findTachesByEmployeId( id );
         }
+
+    @GetMapping("libelle/{libelle}/employe/{id}")
+    public List<Tache> findTacheByEmployeIdAndLibelle(@PathVariable Long id,@PathVariable String libelle) {
+        return tacheService.findTacheByEmployeIdAndLibelle(id, libelle);
+    }
 }
