@@ -86,6 +86,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         idToken.put("expires_in", SecurityParams.EXPIRATION);
         idToken.put("token_type", "Bearer");
+        idToken.put("roles", roles.toArray(new String[roles.size()]));
         new ObjectMapper().writeValue(response.getOutputStream(),idToken);
     }
 

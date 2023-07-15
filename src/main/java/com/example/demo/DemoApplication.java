@@ -32,10 +32,10 @@ public class DemoApplication {
     public CommandLineRunner demo(UserService userService, RoleService roleService) {
         return (args) -> {
             if(true){
-                User userForAdmin = new User("admin");
+                User userForAdmin = new User("user");
 
                 Role roleForAdmin = new Role();
-                roleForAdmin.setAuthority(AuthoritiesConstants.ADMIN);
+                roleForAdmin.setAuthority(AuthoritiesConstants.USER);
                 List<Permission> permissionsForAdmin = new ArrayList<>();
                 addPermissionForAdmin(permissionsForAdmin);
                 roleForAdmin.setPermissions(permissionsForAdmin);
