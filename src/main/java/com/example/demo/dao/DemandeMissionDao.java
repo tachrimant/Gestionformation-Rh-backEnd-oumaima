@@ -19,6 +19,10 @@ public interface DemandeMissionDao extends JpaRepository<DemandeMission, Long> {
         @Query(value = "SELECT d FROM DemandeMission d WHERE d.libelle LIKE CONCAT('%', :libelle, '%')")
         public DemandeMission findDemandeMissionByLibelle(String libelle);
 
+        @Query(value = "SELECT d FROM DemandeMission d WHERE d.employee.cin LIKE CONCAT('%', :cin, '%')")
+        List<DemandeMission> findDemandeMissionByEmployeCin(String cin);
+
+
         public DemandeMission findDemandeMissionByDateDebut(Date dateDebut);
 
         public DemandeMission findDemandeMissionByDateFin(Date dateFin);

@@ -73,5 +73,10 @@ public class DemandeCongeController {
     public List<DemandeConge> findDemandeCongeByEtat(@PathVariable String etat) {
         return demandecongeService.findDemandeCongeByEtat(etat);
     }
+
+    @GetMapping("/cin/{cin}")
+    public List<DemandeConge> findDemandeCongeByEmployeCin(@PathVariable String cin) {
+        return demandecongeService.findDemandeCongeByEMployeCin(cin);
+    }
 }
 

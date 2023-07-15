@@ -1,5 +1,6 @@
 package com.example.demo.service.facade;
 
+import com.example.demo.entities.DemandeConge;
 import com.example.demo.entities.DemandeDeficheDepaie;
 
 import com.example.demo.dto.DemandeDeficheDepaieDto;
@@ -22,5 +23,8 @@ public interface DemandeDeficheDepaieService {
         public DemandeDeficheDepaie findDemandeDeficheDepaieByDatedemande(Date datedemande);
 
         public DemandeDeficheDepaie findDemandeDeficheDepaieByEtat(String etat);
+
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEMployeCin(String cin);
+
 
 }

@@ -26,4 +26,7 @@ public interface DemandeMissionService {
 
         public DemandeMission findDemandeMissionByEtat(String etat);
 
+    public List<DemandeMission> findDemandeMissionByEMployeCin(String cin);
+
+
 }

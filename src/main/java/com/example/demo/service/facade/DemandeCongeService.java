@@ -24,4 +24,7 @@ public interface DemandeCongeService {
 
         public List<DemandeConge> findDemandeCongeByEtat(String etat);
 
+
+        public List<DemandeConge> findDemandeCongeByEMployeCin(String cin);
+
 }

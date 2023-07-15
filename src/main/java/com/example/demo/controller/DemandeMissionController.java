@@ -72,4 +72,9 @@ public class DemandeMissionController {
      return  demandemissionService.findDemandeMissionByEtat( etat);
   }
 
+    @GetMapping("/cin/{cin}")
+    public List<DemandeMission> findDemandeCongeByEmployeCin(@PathVariable String cin) {
+        return demandemissionService.findDemandeMissionByEMployeCin(cin);
+    }
+
 }

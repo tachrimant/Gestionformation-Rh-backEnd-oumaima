@@ -68,4 +68,10 @@ public class DemandeDeficheDepaieServiceImplementation implements DemandeDefiche
       return  demandedefichedepaieDao.findDemandeDeficheDepaieByEtat(etat);
 }
 
+    @Override
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEMployeCin(String cin) {
+        return  demandedefichedepaieDao.findDemandeDeficheDepaieByEmployeCin(cin);
+
+    }
+
 }

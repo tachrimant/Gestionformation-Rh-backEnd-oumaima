@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.entities.DemandeConge;
 import com.example.demo.entities.EtatDemandeFicheDepaie;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.dto.DemandeDeficheDepaieDto;
@@ -59,6 +60,12 @@ public class DemandeDeficheDepaieController {
         @GetMapping("/etat/{etat}")
     public DemandeDeficheDepaie findDemandeDeficheDepaieByetat(@PathVariable String etat){
      return  demandedefichedepaieService.findDemandeDeficheDepaieByEtat( etat );
+    }
+
+
+    @GetMapping("/cin/{cin}")
+    public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeCin(@PathVariable String cin) {
+        return demandedefichedepaieService.findDemandeDeficheDepaieByEMployeCin(cin);
     }
 
 }

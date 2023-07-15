@@ -79,4 +79,9 @@ public class DemandeMissionServiceImplementation implements DemandeMissionServic
       return  demandemissionDao.findDemandeMissionByEtat(etat);
 }
 
+    @Override
+    public List<DemandeMission> findDemandeMissionByEMployeCin(String cin) {
+        return demandemissionDao.findDemandeMissionByEmployeCin(cin);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.entities.DemandeConge;
 import com.example.demo.entities.EtatDemandeFicheDepaie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.dto.DemandeDeficheDepaieDto;
@@ -17,6 +18,9 @@ public interface DemandeDeficheDepaieDao extends JpaRepository<DemandeDeficheDep
 
         @Query(value = "SELECT d FROM DemandeDeficheDepaie d WHERE d.code LIKE CONCAT('%', :code, '%')")
         public List<DemandeDeficheDepaie> findDemandeDeficheDepaieByCode(String code);
+
+        @Query(value = "SELECT d FROM DemandeDeficheDepaie d WHERE d.employe.cin LIKE CONCAT('%', :cin, '%')")
+        List<DemandeDeficheDepaie> findDemandeDeficheDepaieByEmployeCin(String cin);
 
         public DemandeDeficheDepaie findDemandeDeficheDepaieByDatedemande(Date datedemande);
 
