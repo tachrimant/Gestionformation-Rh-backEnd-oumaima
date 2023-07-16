@@ -42,7 +42,8 @@ public class EmployeServiceImplementation implements EmployeService {
         listrole.add(roleForUser);
         employe.setRoles(listrole);
 
-        employe.setPassword(bCryptPasswordEncoder.encode(employe.getPassword()));
+        employe.setPassword(employe.getPassword() != null ? bCryptPasswordEncoder.encode(employe.getPassword()):"employe-123");
+        employe.setPassword(employe.getUsername() != null ?employe.getUsername():employe.getNom() + "-" + employe.getPrenom());
 
         userService.save(employe);
 
