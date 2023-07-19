@@ -47,6 +47,7 @@ public class TacheController {
     public List<Tache> findAll() {
         return tacheService.findAll();
     }
+
     @GetMapping("/code/{code}")
     public List<Tache> findTacheBycode(@PathVariable String code){
      return  tacheService.findTacheByCode( code );
@@ -68,12 +69,13 @@ public class TacheController {
         }
 
         @GetMapping("/employe/{id}")
-    public List<Tache> findTacheBydateFin(@PathVariable Long id){
+    public List<Tache> findTacheByEmployeId(@PathVariable Long id){
      return  tacheService.findTachesByEmployeId( id );
         }
 
-    @GetMapping("libelle/{libelle}/employe/{id}")
+    @GetMapping("/libelle/{libelle}/employe/{id}")
     public List<Tache> findTacheByEmployeIdAndLibelle(@PathVariable Long id,@PathVariable String libelle) {
         return tacheService.findTacheByEmployeIdAndLibelle(id, libelle);
     }
+
 }
