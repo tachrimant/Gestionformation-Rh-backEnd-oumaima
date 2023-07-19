@@ -57,9 +57,11 @@ public class UserRest {
         return userService.findByUsernameWithRoles(username);
     }
 
-    @GetMapping (path = "/profile")
-    public UserDetails profile(Principal principal){
-        return userService.loadUserByUsername(principal.getName());
+    @GetMapping (path = "/profile/{id}")
+    public User profile(@PathVariable Long id){
+
+
+        return userService.loadUserById(id);
     }
 
     @DeleteMapping("/username/{username}")

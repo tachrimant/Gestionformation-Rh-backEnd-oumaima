@@ -47,8 +47,7 @@ public class EmployeServiceImplementation implements EmployeService {
 
         userService.save(employe);
 
-       // employeDao.save(employe);
-    }
+     }
 
     @Override
     public void edit(Employe employe) {
