@@ -135,4 +135,8 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return findByUsernameWithRoles(username);
     }
+    @Override
+    public User loadUserById(Long id) throws UsernameNotFoundException {
+        return this.userDao.findUserById(id);
+    }
 }

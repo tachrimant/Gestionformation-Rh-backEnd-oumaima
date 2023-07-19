@@ -27,5 +27,6 @@ public interface UserService extends UserDetailsService {
     int deleteByUsername(String username);
 
     UserDetails loadUserByUsername(String username);
+    User loadUserById(Long id);
 
 }
