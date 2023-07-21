@@ -57,6 +57,11 @@ public class EmployeServiceImplementation implements EmployeService {
 
     @Override
     public void edit(Employe employe) {
+
+        if (findEmployeByCin(employe.getCin())!= null || findEmployeByEmail(employe.getEmail())!= null){
+            throw new RuntimeException("Employé avec cet Email ou CIN déjà existe. Veuillez verifier l'email ou le CIN");
+        }
+
         Employe employe1 = findById(employe.getId());
         if (employe1 != null){
             employe1.setCin(employe.getCin());
