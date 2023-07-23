@@ -26,6 +26,8 @@ public class Formation {
 
     private String description;
 
+    private String etatformation;
+
 
     private Date dateDebut;
 

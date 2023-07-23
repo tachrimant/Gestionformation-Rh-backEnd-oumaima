@@ -32,6 +32,7 @@ public class FormationServiceImpl implements FormationService {
             formation1.setDateDebut(formation.getDateDebut());
             formation1.setDateFin(formation.getDateFin());
             formation1.setDescription(formation.getDescription());
+            formation1.setEtatformation(formation.getEtatformation());
             formationDao.save(formation1);
         }
     }
