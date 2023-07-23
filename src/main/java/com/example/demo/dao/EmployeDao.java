@@ -23,6 +23,8 @@ public interface EmployeDao extends JpaRepository<Employe, Long> {
 
         public Employe findEmployeByPrenom(String prenom);
 
+        public Employe findEmployeByCin(String cin);
+
         public Employe findEmployeByEmail(String email);
 
         public Employe findEmployeByDatenaissance(Date datenaissance);

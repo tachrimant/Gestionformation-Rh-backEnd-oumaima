@@ -37,7 +37,7 @@ public class EmployeServiceImplementation implements EmployeService {
     @Override
     public void save(Employe employe) {
 
-        if (findEmployeByCin(employe.getCin())!= null || findEmployeByEmail(employe.getEmail())!= null){
+        if (employeDao.findEmployeByCin(employe.getCin())!= null || findEmployeByEmail(employe.getEmail())!= null){
             throw new RuntimeException("Employé avec cet Email ou CIN déjà existe. Veuillez verifier l'email ou le CIN");
         }
 
