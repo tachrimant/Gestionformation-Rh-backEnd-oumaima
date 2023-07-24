@@ -59,12 +59,17 @@ public class EmployeServiceImplementation implements EmployeService {
     public void edit(Employe employe) {
 
         Employe employe1 = findById(employe.getId());
-        Employe employe2 = findEmployeByCin(employe.getCin()).get(0);
+        Employe employe2 = employeDao.findEmployeByCin(employe.getCin());
         Employe employe3 = findEmployeByEmail(employe.getEmail());
 
-        if ((employe2 != null || employe3 != null)) {
-            assert employe2 != null;
-            if (!employe2.getId().equals(employe.getId()) || !employe3.getId().equals(employe.getId())) {
+        if ((employe2 != null )) {
+            if (!employe2.getId().equals(employe1.getId()) ) {
+                throw new RuntimeException("Employé avec cet Email ou CIN déjà existe. Veuillez verifier l'email ou le CIN");
+            }
+        }
+
+        if ((employe3 != null )) {
+            if (!employe3.getId().equals(employe1.getId()) ) {
                 throw new RuntimeException("Employé avec cet Email ou CIN déjà existe. Veuillez verifier l'email ou le CIN");
             }
         }
